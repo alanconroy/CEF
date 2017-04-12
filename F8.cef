@@ -1,0 +1,12 @@
+unload_all
+load f3850
+radix 16
+load s64k_ram "low 0 high FFFF"
+unsigned
+ascii
+byte
+low 0
+high FFFF
+connect "Fairchild 3850/3853" "CEF Generic 64K Memory"
+disconnect "Fairchild 3850/3853" "Default Memory"
+caption "F8"

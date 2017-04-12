@@ -1,0 +1,19 @@
+hide
+radix 8
+unload_all
+load z80 "8080"
+load s64k_ram/name=MEM "low 0 high ffff"
+load altair/name=ALTAIR
+unsigned
+ascii
+byte
+low 0
+radix 16
+high FFFF
+radix 8
+connect "CEF Z80" "ALTAIR"
+connect "CEF Z80" "MEM"
+disconnect "CEF Z80" "Default Memory"
+caption "MITS Altair 8800"
+
+

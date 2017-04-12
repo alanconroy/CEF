@@ -1,0 +1,89 @@
+  The 8085 is an 8-bit microprocessor manufactured by Intel.  Its
+instruction set is a superset of the 8080.
+*Instruction_Table
+ 0    0  NOP              1    1  LXI  B           2    2  STAX B
+ 3    3  INX  B           4    4  INR  B           5    5  DCR  B
+ 6    6  MVI  B           7    7  RLC              8   10  DSUB B
+ 9   11  DAD  B           A   12  LDAX B           B   13  DCX  B
+ C   14  INR  C           D   15  DCR  C           E   16  MVI  C
+ F   17  RRC             10   20  RHR             11   21  LXI  D
+12   22  STAX D          13   23  INX  D          14   24  INR  D
+15   25  DCR  D          16   26  MVI  D          17   27  RAL
+18   30  RDL             19   31  DAD  D          1A   32  LDAX D
+1B   33  DCX  D          1C   34  INR  E          1D   35  DCR  E
+1E   36  MVI  E          1F   37  RAR             20   40  RIM
+21   41  LXI  H          22   42  SHLD            23   43  INX  H
+24   44  INR  H          25   45  DCR  H          26   46  MVI  H
+27   47  DAA             28   50  DMOV H          29   51  DAD  H
+2A   52  LHLD            2B   53  DCX  H          2C   54  INR  L
+2D   55  DCR  L          2E   56  MVI  L          2F   57  CMA
+30   60  SIM             31   61  LXI  SP         32   62  STA
+33   63  INX  SP         34   64  INR  M          35   65  DCR  M
+36   66  MVI  M          37   67  STC             38   70  DMOV SP
+39   71  DAD  SP         3A   72  LDA             3B   73  DCX  SP
+3C   74  INR  A          3D   75  DCR  A          3E   76  MVI  A
+3F   77  CMC             40  100  MOV  B,B        41  101  MOV  B,C
+42  102  MOV  B,D        43  103  MOV  B,E        44  104  MOV  B,H
+45  105  MOV  B,L        46  106  MOV  B,M        47  107  MOV  B,A
+48  110  MOV  C,B        49  111  MOV  C,C        4A  112  MOV  C,D
+4B  113  MOV  C,E        4C  114  MOV  C,H        4D  115  MOV  C,L
+4E  116  MOV  C,M        4F  117  MOV  C,A        50  120  MOV  D,B
+51  121  MOV  D,C        52  122  MOV  D,D        53  123  MOV  D,E
+54  124  MOV  D,H        55  125  MOV  D,L        56  126  MOV  D,M
+57  127  MOV  D,A        58  130  MOV  E,B        59  131  MOV  E,C
+5A  132  MOV  E,D        5B  133  MOV  E,E        5C  134  MOV  E,H
+5D  135  MOV  E,L        5E  136  MOV  E,M        5F  137  MOV  E,A
+60  140  MOV  H,B        61  141  MOV  H,C        62  142  MOV  H,D
+63  143  MOV  H,E        64  144  MOV  H,H        65  145  MOV  H,L
+66  146  MOV  H,M        67  147  MOV  H,A        68  150  MOV  L,B
+69  151  MOV  L,C        6A  152  MOV  L,D        6B  153  MOV  L,E
+6C  154  MOV  L,H        6D  155  MOV  L,L        6E  156  MOV  L,M
+6F  157  MOV  L,A        70  160  MOV  M,B        71  161  MOV  M,C
+72  162  MOV  M,D        73  163  MOV  M,E        74  164  MOV  M,H
+75  165  MOV  M,L        76  166  HLT             77  167  MOV  M,A
+78  170  MOV  A,B        79  171  MOV  A,C        7A  172  MOV  A,D
+7B  173  MOV  A,E        7C  174  MOV  A,H        7D  175  MOV  A,L
+7E  176  MOV  A,M        7F  177  MOV  A,A        80  200  ADD  B
+81  201  ADD  C          82  202  ADD  D          83  203  ADD  E
+84  204  ADD  H          85  205  ADD  L          86  206  ADD  M
+87  207  ADD  A          88  210  ADC  B          89  211  ADC  C
+8A  212  ADC  D          8B  213  ADC  E          8C  214  ADC  H
+8D  215  ADC  L          8E  216  ADC  M          8F  217  ADC  A
+90  220  SUB  B          91  221  SUB  C          92  222  SUB  D
+93  223  SUB  E          94  224  SUB  H          95  225  SUB  L
+96  226  SUB  M          97  227  SUB  A          98  230  SBB  B
+99  231  SBB  C          9A  232  SBB  D          9B  233  SBB  E
+9C  234  SBB  H          9D  235  SBB  L          9E  236  SBB  M
+9F  237  SBB  A          A0  240  ANA  B          A1  241  ANA  C
+A2  242  ANA  D          A3  243  ANA  E          A4  244  ANA  H
+A5  245  ANA  L          A6  246  ANA  M          A7  247  ANA  A
+A8  250  XRA  B          A9  251  XRA  C          AA  252  XRA  D
+AB  253  XRA  E          AC  254  XRA  H          AD  255  XRA  L
+AE  256  XRA  M          AF  257  XRA  A          B0  260  ORA  B
+B1  261  ORA  C          B2  262  ORA  D          B3  263  ORA  E
+B4  264  ORA  H          B5  265  ORA  L          B6  266  ORA  M
+B7  267  ORA  A          B8  270  CMP  B          B9  271  CMP  C
+BA  272  CMP  D          BB  273  CMP  E          BC  274  CMP  H
+BD  275  CMP  L          BE  276  CMP  M          BF  277  CMP  A
+C0  300  RNZ             C1  301  POP B           C2  302  JNZ
+C3  303  JMP             C4  304  CNZ             C5  305  PUSH B
+C6  306  ADI             C7  307  RST  0          C8  310  RZ
+C9  311  RET             CA  312  JZ              CB  313  RSTV
+CC  314  CZ              CD  315  CALL            CE  316  ACI
+CF  317  RST  1          D0  320  RNC             D1  321  POP D
+D2  322  JNC             D3  323  OUT             D4  324  CNC   
+D5  325  PUSH D          D6  326  SUI             D7  327  RST  2
+D8  330  RC              D9  331  SHLX            DA  332  JC
+DB  333  IN              DC  334  CC              DD  335  JND
+DE  336  SBI             DF  337  RST  3          E0  340  RPO
+E1  341  POP H           E2  342  JPO             E3  343  XTHL
+E4  344  CPO             E5  345  PUSH H          E6  346  ANI
+E7  347  RST  4          E8  350  RPE             E9  351  PCHL
+EA  352  JPE             EB  353  XCHG            EC  354  CPE
+ED  355  LHLX            EE  356  XRI             EF  357  RST  5
+F0  360  RP              F1  361  POP PSW         F2  362  JP
+F3  363  DI              F4  364  CP              F5  365  PUSH PSW
+F6  366  ORI             F7  367  RST  6          F8  370  RM
+F9  371  SPHL            FA  372  JM              FB  373  EI
+FC  374  CM              FD  375  JD              FE  376  CPI
+FF  377  RST  7

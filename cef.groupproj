@@ -1,0 +1,654 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{4af3d0a4-4d9c-4058-bc6e-6d6af1256f65}</ProjectGuid>
+  </PropertyGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Projects Include="Sources\AIM65_KB\AIM65_KB.dproj" />
+    <Projects Include="Sources\Altair\Altair.dproj" />
+    <Projects Include="Sources\Apple_2_KB\Apple_2_KB.dproj" />
+    <Projects Include="Sources\ASR33_KB\ASR33_KB.dproj" />
+    <Projects Include="Sources\Assemblers\Macro11.dproj" />
+    <Projects Include="Sources\Block_RAM\blockram.dproj" />
+    <Projects Include="Sources\CEF32\cef32.dproj" />
+    <Projects Include="Sources\CEFClock\cefclock.dproj" />
+    <Projects Include="Sources\CEFMemory\cefmemory.dproj" />
+    <Projects Include="Sources\CEFSVM\CEFSVM.dproj" />
+    <Projects Include="Sources\CEF_Util\CEF_Util.dproj" />
+    <Projects Include="Sources\Cosmac Elf\Cosmac_Elf.dproj" />
+    <Projects Include="Sources\DL11\DL11.dproj" />
+    <Projects Include="Sources\EAE\EAE.dproj" />
+    <Projects Include="Sources\F3850\F3850.dproj" />
+    <Projects Include="Sources\GenScreen\genscreen.dproj" />
+    <Projects Include="Sources\Gigabyte_uCode\GB_uCode.dproj" />
+    <Projects Include="Sources\HX20_KB\HX20_KB.dproj" />
+    <Projects Include="Sources\I8008\I8008.dproj" />
+    <Projects Include="Sources\i8253\i8253.dproj" />
+    <Projects Include="Sources\iAXP\iAPX.dproj" />
+    <Projects Include="Sources\IMM860\IMM860.dproj" />
+    <Projects Include="Sources\Intellec8\Intellec8.dproj" />
+    <Projects Include="Sources\KW11L\KW11L.dproj" />
+    <Projects Include="Sources\LA120_KB\LA120_KB.dproj" />
+    <Projects Include="Sources\LA36\LA36.dproj" />
+    <Projects Include="Sources\LK01_KB\LK01_KB.dproj" />
+    <Projects Include="Sources\LK02_KB\LK02_KB.dproj" />
+    <Projects Include="Sources\LK201_KB\LK201_KB.dproj" />
+    <Projects Include="Sources\MM_Disk\MM_Disk.dproj" />
+    <Projects Include="Sources\MM_Tape\MM_Tape.dproj" />
+    <Projects Include="Sources\MM_Tape_ANSI\MM_Tape_ANSI.dproj" />
+    <Projects Include="Sources\MM_Tape_DOS11\MM_Tape_DOS11.dproj" />
+    <Projects Include="Sources\Null\Null.dproj" />
+    <Projects Include="Sources\Panel\Panel.dproj" />
+    <Projects Include="Sources\PC108_KB\PC108_KB.dproj" />
+    <Projects Include="Sources\PC11\PC11.dproj" />
+    <Projects Include="Sources\PDP11\PDP11.dproj" />
+    <Projects Include="Sources\PR11\PR11.dproj" />
+    <Projects Include="Sources\RCA1802\RCA1802.dproj" />
+    <Projects Include="Sources\Remotes\Mailslot\CEF32_Mailslot.dproj" />
+    <Projects Include="Sources\Remotes\OLE\CEF32_OLE.dproj" />
+    <Projects Include="Sources\RL11\RL11.dproj" />
+    <Projects Include="Sources\S4M_RAM\S4M_RAM.dproj" />
+    <Projects Include="Sources\S64K_RAM\S64K_RAM.dproj" />
+    <Projects Include="Sources\Serial\serial.dproj" />
+    <Projects Include="Sources\SIO\SIO.dproj" />
+    <Projects Include="Sources\SOL20\sol20.dproj" />
+    <Projects Include="Sources\SOL20_KB\sol20_KB.dproj" />
+    <Projects Include="Sources\SRAM\SRAM.dproj" />
+    <Projects Include="Sources\SVMScreen\SVMScreen.dproj" />
+    <Projects Include="Sources\SVM_Code_RAM\SVM_Code_RAM.dproj" />
+    <Projects Include="Sources\TRS80\trs80.dproj" />
+    <Projects Include="Sources\TRS80_1_KB\TRS80_1_KB.dproj" />
+    <Projects Include="Sources\UNIBUS\UNIBUS.dproj" />
+    <Projects Include="Sources\Utilities\Font_Editor.dproj" />
+    <Projects Include="Sources\VDM1\VDM1.dproj" />
+    <Projects Include="Sources\VT05_KB\VT05_KB.dproj" />
+    <Projects Include="Sources\VT100_KB\VT100_KB.dproj" />
+    <Projects Include="Sources\VT52\vt100.dproj" />
+    <Projects Include="Sources\VT52_KB\VT52_KB.dproj" />
+    <Projects Include="Sources\Z80\z80.dproj" />
+    <Projects Include="Sources\ZX81_KB\ZX81_KB.dproj" />
+  </ItemGroup>
+  <ProjectExtensions>
+    <Borland.Personality>Default.Personality</Borland.Personality>
+    <Borland.ProjectType />
+    <BorlandProject>
+<BorlandProject xmlns=""><Default.Personality></Default.Personality></BorlandProject></BorlandProject>
+  </ProjectExtensions>
+  <Target Name="AIM65_KB">
+    <MSBuild Projects="Sources\AIM65_KB\AIM65_KB.dproj" Targets="" />
+  </Target>
+  <Target Name="AIM65_KB:Clean">
+    <MSBuild Projects="Sources\AIM65_KB\AIM65_KB.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="AIM65_KB:Make">
+    <MSBuild Projects="Sources\AIM65_KB\AIM65_KB.dproj" Targets="Make" />
+  </Target>
+  <Target Name="Altair">
+    <MSBuild Projects="Sources\Altair\Altair.dproj" Targets="" />
+  </Target>
+  <Target Name="Altair:Clean">
+    <MSBuild Projects="Sources\Altair\Altair.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="Altair:Make">
+    <MSBuild Projects="Sources\Altair\Altair.dproj" Targets="Make" />
+  </Target>
+  <Target Name="Apple_2_KB">
+    <MSBuild Projects="Sources\Apple_2_KB\Apple_2_KB.dproj" Targets="" />
+  </Target>
+  <Target Name="Apple_2_KB:Clean">
+    <MSBuild Projects="Sources\Apple_2_KB\Apple_2_KB.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="Apple_2_KB:Make">
+    <MSBuild Projects="Sources\Apple_2_KB\Apple_2_KB.dproj" Targets="Make" />
+  </Target>
+  <Target Name="ASR33_KB">
+    <MSBuild Projects="Sources\ASR33_KB\ASR33_KB.dproj" Targets="" />
+  </Target>
+  <Target Name="ASR33_KB:Clean">
+    <MSBuild Projects="Sources\ASR33_KB\ASR33_KB.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="ASR33_KB:Make">
+    <MSBuild Projects="Sources\ASR33_KB\ASR33_KB.dproj" Targets="Make" />
+  </Target>
+  <Target Name="blockram">
+    <MSBuild Projects="Sources\Block_RAM\blockram.dproj" Targets="" />
+  </Target>
+  <Target Name="blockram:Clean">
+    <MSBuild Projects="Sources\Block_RAM\blockram.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="blockram:Make">
+    <MSBuild Projects="Sources\Block_RAM\blockram.dproj" Targets="Make" />
+  </Target>
+  <Target Name="CEF_Util">
+    <MSBuild Projects="Sources\CEF_Util\CEF_Util.dproj" Targets="" />
+  </Target>
+  <Target Name="CEF_Util:Clean">
+    <MSBuild Projects="Sources\CEF_Util\CEF_Util.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="CEF_Util:Make">
+    <MSBuild Projects="Sources\CEF_Util\CEF_Util.dproj" Targets="Make" />
+  </Target>
+  <Target Name="cef32">
+    <MSBuild Projects="Sources\CEF32\cef32.dproj" Targets="" />
+  </Target>
+  <Target Name="cef32:Clean">
+    <MSBuild Projects="Sources\CEF32\cef32.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="cef32:Make">
+    <MSBuild Projects="Sources\CEF32\cef32.dproj" Targets="Make" />
+  </Target>
+  <Target Name="cefclock">
+    <MSBuild Projects="Sources\CEFClock\cefclock.dproj" Targets="" />
+  </Target>
+  <Target Name="cefclock:Clean">
+    <MSBuild Projects="Sources\CEFClock\cefclock.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="cefclock:Make">
+    <MSBuild Projects="Sources\CEFClock\cefclock.dproj" Targets="Make" />
+  </Target>
+  <Target Name="cefmemory">
+    <MSBuild Projects="Sources\CEFMemory\cefmemory.dproj" Targets="" />
+  </Target>
+  <Target Name="cefmemory:Clean">
+    <MSBuild Projects="Sources\CEFMemory\cefmemory.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="cefmemory:Make">
+    <MSBuild Projects="Sources\CEFMemory\cefmemory.dproj" Targets="Make" />
+  </Target>
+  <Target Name="CEFSVM">
+    <MSBuild Projects="Sources\CEFSVM\CEFSVM.dproj" Targets="" />
+  </Target>
+  <Target Name="CEFSVM:Clean">
+    <MSBuild Projects="Sources\CEFSVM\CEFSVM.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="CEFSVM:Make">
+    <MSBuild Projects="Sources\CEFSVM\CEFSVM.dproj" Targets="Make" />
+  </Target>
+  <Target Name="Cosmac_Elf">
+    <MSBuild Projects="Sources\Cosmac Elf\Cosmac_Elf.dproj" Targets="" />
+  </Target>
+  <Target Name="Cosmac_Elf:Clean">
+    <MSBuild Projects="Sources\Cosmac Elf\Cosmac_Elf.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="Cosmac_Elf:Make">
+    <MSBuild Projects="Sources\Cosmac Elf\Cosmac_Elf.dproj" Targets="Make" />
+  </Target>
+  <Target Name="DL11">
+    <MSBuild Projects="Sources\DL11\DL11.dproj" Targets="" />
+  </Target>
+  <Target Name="DL11:Clean">
+    <MSBuild Projects="Sources\DL11\DL11.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="DL11:Make">
+    <MSBuild Projects="Sources\DL11\DL11.dproj" Targets="Make" />
+  </Target>
+  <Target Name="EAE">
+    <MSBuild Projects="Sources\EAE\EAE.dproj" Targets="" />
+  </Target>
+  <Target Name="EAE:Clean">
+    <MSBuild Projects="Sources\EAE\EAE.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="EAE:Make">
+    <MSBuild Projects="Sources\EAE\EAE.dproj" Targets="Make" />
+  </Target>
+  <Target Name="F3850">
+    <MSBuild Projects="Sources\F3850\F3850.dproj" Targets="" />
+  </Target>
+  <Target Name="F3850:Clean">
+    <MSBuild Projects="Sources\F3850\F3850.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="F3850:Make">
+    <MSBuild Projects="Sources\F3850\F3850.dproj" Targets="Make" />
+  </Target>
+  <Target Name="GB_uCode">
+    <MSBuild Projects="Sources\Gigabyte_uCode\GB_uCode.dproj" Targets="" />
+  </Target>
+  <Target Name="GB_uCode:Clean">
+    <MSBuild Projects="Sources\Gigabyte_uCode\GB_uCode.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="GB_uCode:Make">
+    <MSBuild Projects="Sources\Gigabyte_uCode\GB_uCode.dproj" Targets="Make" />
+  </Target>
+  <Target Name="genscreen">
+    <MSBuild Projects="Sources\GenScreen\genscreen.dproj" Targets="" />
+  </Target>
+  <Target Name="genscreen:Clean">
+    <MSBuild Projects="Sources\GenScreen\genscreen.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="genscreen:Make">
+    <MSBuild Projects="Sources\GenScreen\genscreen.dproj" Targets="Make" />
+  </Target>
+  <Target Name="HX20_KB">
+    <MSBuild Projects="Sources\HX20_KB\HX20_KB.dproj" Targets="" />
+  </Target>
+  <Target Name="HX20_KB:Clean">
+    <MSBuild Projects="Sources\HX20_KB\HX20_KB.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="HX20_KB:Make">
+    <MSBuild Projects="Sources\HX20_KB\HX20_KB.dproj" Targets="Make" />
+  </Target>
+  <Target Name="I8008">
+    <MSBuild Projects="Sources\I8008\I8008.dproj" Targets="" />
+  </Target>
+  <Target Name="I8008:Clean">
+    <MSBuild Projects="Sources\I8008\I8008.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="I8008:Make">
+    <MSBuild Projects="Sources\I8008\I8008.dproj" Targets="Make" />
+  </Target>
+  <Target Name="IMM860">
+    <MSBuild Projects="Sources\IMM860\IMM860.dproj" Targets="" />
+  </Target>
+  <Target Name="IMM860:Clean">
+    <MSBuild Projects="Sources\IMM860\IMM860.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="IMM860:Make">
+    <MSBuild Projects="Sources\IMM860\IMM860.dproj" Targets="Make" />
+  </Target>
+  <Target Name="Intellec8">
+    <MSBuild Projects="Sources\Intellec8\Intellec8.dproj" Targets="" />
+  </Target>
+  <Target Name="Intellec8:Clean">
+    <MSBuild Projects="Sources\Intellec8\Intellec8.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="Intellec8:Make">
+    <MSBuild Projects="Sources\Intellec8\Intellec8.dproj" Targets="Make" />
+  </Target>
+  <Target Name="KW11L">
+    <MSBuild Projects="Sources\KW11L\KW11L.dproj" Targets="" />
+  </Target>
+  <Target Name="KW11L:Clean">
+    <MSBuild Projects="Sources\KW11L\KW11L.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="KW11L:Make">
+    <MSBuild Projects="Sources\KW11L\KW11L.dproj" Targets="Make" />
+  </Target>
+  <Target Name="LA36">
+    <MSBuild Projects="Sources\LA36\LA36.dproj" Targets="" />
+  </Target>
+  <Target Name="LA36:Clean">
+    <MSBuild Projects="Sources\LA36\LA36.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="LA36:Make">
+    <MSBuild Projects="Sources\LA36\LA36.dproj" Targets="Make" />
+  </Target>
+  <Target Name="LA120_KB">
+    <MSBuild Projects="Sources\LA120_KB\LA120_KB.dproj" Targets="" />
+  </Target>
+  <Target Name="LA120_KB:Clean">
+    <MSBuild Projects="Sources\LA120_KB\LA120_KB.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="LA120_KB:Make">
+    <MSBuild Projects="Sources\LA120_KB\LA120_KB.dproj" Targets="Make" />
+  </Target>
+  <Target Name="LK201_KB">
+    <MSBuild Projects="Sources\LK201_KB\LK201_KB.dproj" Targets="" />
+  </Target>
+  <Target Name="LK201_KB:Clean">
+    <MSBuild Projects="Sources\LK201_KB\LK201_KB.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="LK201_KB:Make">
+    <MSBuild Projects="Sources\LK201_KB\LK201_KB.dproj" Targets="Make" />
+  </Target>
+  <Target Name="LK01_KB">
+    <MSBuild Projects="Sources\LK01_KB\LK01_KB.dproj" Targets="" />
+  </Target>
+  <Target Name="LK01_KB:Clean">
+    <MSBuild Projects="Sources\LK01_KB\LK01_KB.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="LK01_KB:Make">
+    <MSBuild Projects="Sources\LK01_KB\LK01_KB.dproj" Targets="Make" />
+  </Target>
+  <Target Name="LK02_KB">
+    <MSBuild Projects="Sources\LK02_KB\LK02_KB.dproj" Targets="" />
+  </Target>
+  <Target Name="LK02_KB:Clean">
+    <MSBuild Projects="Sources\LK02_KB\LK02_KB.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="LK02_KB:Make">
+    <MSBuild Projects="Sources\LK02_KB\LK02_KB.dproj" Targets="Make" />
+  </Target>
+  <Target Name="Null">
+    <MSBuild Projects="Sources\Null\Null.dproj" Targets="" />
+  </Target>
+  <Target Name="Null:Clean">
+    <MSBuild Projects="Sources\Null\Null.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="Null:Make">
+    <MSBuild Projects="Sources\Null\Null.dproj" Targets="Make" />
+  </Target>
+  <Target Name="Panel">
+    <MSBuild Projects="Sources\Panel\Panel.dproj" Targets="" />
+  </Target>
+  <Target Name="Panel:Clean">
+    <MSBuild Projects="Sources\Panel\Panel.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="Panel:Make">
+    <MSBuild Projects="Sources\Panel\Panel.dproj" Targets="Make" />
+  </Target>
+  <Target Name="PC11">
+    <MSBuild Projects="Sources\PC11\PC11.dproj" Targets="" />
+  </Target>
+  <Target Name="PC11:Clean">
+    <MSBuild Projects="Sources\PC11\PC11.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="PC11:Make">
+    <MSBuild Projects="Sources\PC11\PC11.dproj" Targets="Make" />
+  </Target>
+  <Target Name="PC108_KB">
+    <MSBuild Projects="Sources\PC108_KB\PC108_KB.dproj" Targets="" />
+  </Target>
+  <Target Name="PC108_KB:Clean">
+    <MSBuild Projects="Sources\PC108_KB\PC108_KB.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="PC108_KB:Make">
+    <MSBuild Projects="Sources\PC108_KB\PC108_KB.dproj" Targets="Make" />
+  </Target>
+  <Target Name="PDP11">
+    <MSBuild Projects="Sources\PDP11\PDP11.dproj" Targets="" />
+  </Target>
+  <Target Name="PDP11:Clean">
+    <MSBuild Projects="Sources\PDP11\PDP11.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="PDP11:Make">
+    <MSBuild Projects="Sources\PDP11\PDP11.dproj" Targets="Make" />
+  </Target>
+  <Target Name="PR11">
+    <MSBuild Projects="Sources\PR11\PR11.dproj" Targets="" />
+  </Target>
+  <Target Name="PR11:Clean">
+    <MSBuild Projects="Sources\PR11\PR11.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="PR11:Make">
+    <MSBuild Projects="Sources\PR11\PR11.dproj" Targets="Make" />
+  </Target>
+  <Target Name="RCA1802">
+    <MSBuild Projects="Sources\RCA1802\RCA1802.dproj" Targets="" />
+  </Target>
+  <Target Name="RCA1802:Clean">
+    <MSBuild Projects="Sources\RCA1802\RCA1802.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="RCA1802:Make">
+    <MSBuild Projects="Sources\RCA1802\RCA1802.dproj" Targets="Make" />
+  </Target>
+  <Target Name="RL11">
+    <MSBuild Projects="Sources\RL11\RL11.dproj" Targets="" />
+  </Target>
+  <Target Name="RL11:Clean">
+    <MSBuild Projects="Sources\RL11\RL11.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="RL11:Make">
+    <MSBuild Projects="Sources\RL11\RL11.dproj" Targets="Make" />
+  </Target>
+  <Target Name="S64K_RAM">
+    <MSBuild Projects="Sources\S64K_RAM\S64K_RAM.dproj" Targets="" />
+  </Target>
+  <Target Name="S64K_RAM:Clean">
+    <MSBuild Projects="Sources\S64K_RAM\S64K_RAM.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="S64K_RAM:Make">
+    <MSBuild Projects="Sources\S64K_RAM\S64K_RAM.dproj" Targets="Make" />
+  </Target>
+  <Target Name="S4M_RAM">
+    <MSBuild Projects="Sources\S4M_RAM\S4M_RAM.dproj" Targets="" />
+  </Target>
+  <Target Name="S4M_RAM:Clean">
+    <MSBuild Projects="Sources\S4M_RAM\S4M_RAM.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="S4M_RAM:Make">
+    <MSBuild Projects="Sources\S4M_RAM\S4M_RAM.dproj" Targets="Make" />
+  </Target>
+  <Target Name="serial">
+    <MSBuild Projects="Sources\Serial\serial.dproj" Targets="" />
+  </Target>
+  <Target Name="serial:Clean">
+    <MSBuild Projects="Sources\Serial\serial.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="serial:Make">
+    <MSBuild Projects="Sources\Serial\serial.dproj" Targets="Make" />
+  </Target>
+  <Target Name="SIO">
+    <MSBuild Projects="Sources\SIO\SIO.dproj" Targets="" />
+  </Target>
+  <Target Name="SIO:Clean">
+    <MSBuild Projects="Sources\SIO\SIO.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="SIO:Make">
+    <MSBuild Projects="Sources\SIO\SIO.dproj" Targets="Make" />
+  </Target>
+  <Target Name="sol20">
+    <MSBuild Projects="Sources\SOL20\sol20.dproj" Targets="" />
+  </Target>
+  <Target Name="sol20:Clean">
+    <MSBuild Projects="Sources\SOL20\sol20.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="sol20:Make">
+    <MSBuild Projects="Sources\SOL20\sol20.dproj" Targets="Make" />
+  </Target>
+  <Target Name="sol20_KB">
+    <MSBuild Projects="Sources\SOL20_KB\sol20_KB.dproj" Targets="" />
+  </Target>
+  <Target Name="sol20_KB:Clean">
+    <MSBuild Projects="Sources\SOL20_KB\sol20_KB.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="sol20_KB:Make">
+    <MSBuild Projects="Sources\SOL20_KB\sol20_KB.dproj" Targets="Make" />
+  </Target>
+  <Target Name="SRAM">
+    <MSBuild Projects="Sources\SRAM\SRAM.dproj" Targets="" />
+  </Target>
+  <Target Name="SRAM:Clean">
+    <MSBuild Projects="Sources\SRAM\SRAM.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="SRAM:Make">
+    <MSBuild Projects="Sources\SRAM\SRAM.dproj" Targets="Make" />
+  </Target>
+  <Target Name="SVM_Code_RAM">
+    <MSBuild Projects="Sources\SVM_Code_RAM\SVM_Code_RAM.dproj" Targets="" />
+  </Target>
+  <Target Name="SVM_Code_RAM:Clean">
+    <MSBuild Projects="Sources\SVM_Code_RAM\SVM_Code_RAM.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="SVM_Code_RAM:Make">
+    <MSBuild Projects="Sources\SVM_Code_RAM\SVM_Code_RAM.dproj" Targets="Make" />
+  </Target>
+  <Target Name="SVMScreen">
+    <MSBuild Projects="Sources\SVMScreen\SVMScreen.dproj" Targets="" />
+  </Target>
+  <Target Name="SVMScreen:Clean">
+    <MSBuild Projects="Sources\SVMScreen\SVMScreen.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="SVMScreen:Make">
+    <MSBuild Projects="Sources\SVMScreen\SVMScreen.dproj" Targets="Make" />
+  </Target>
+  <Target Name="trs80">
+    <MSBuild Projects="Sources\TRS80\trs80.dproj" Targets="" />
+  </Target>
+  <Target Name="trs80:Clean">
+    <MSBuild Projects="Sources\TRS80\trs80.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="trs80:Make">
+    <MSBuild Projects="Sources\TRS80\trs80.dproj" Targets="Make" />
+  </Target>
+  <Target Name="TRS80_1_KB">
+    <MSBuild Projects="Sources\TRS80_1_KB\TRS80_1_KB.dproj" Targets="" />
+  </Target>
+  <Target Name="TRS80_1_KB:Clean">
+    <MSBuild Projects="Sources\TRS80_1_KB\TRS80_1_KB.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="TRS80_1_KB:Make">
+    <MSBuild Projects="Sources\TRS80_1_KB\TRS80_1_KB.dproj" Targets="Make" />
+  </Target>
+  <Target Name="UNIBUS">
+    <MSBuild Projects="Sources\UNIBUS\UNIBUS.dproj" Targets="" />
+  </Target>
+  <Target Name="UNIBUS:Clean">
+    <MSBuild Projects="Sources\UNIBUS\UNIBUS.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="UNIBUS:Make">
+    <MSBuild Projects="Sources\UNIBUS\UNIBUS.dproj" Targets="Make" />
+  </Target>
+  <Target Name="VDM1">
+    <MSBuild Projects="Sources\VDM1\VDM1.dproj" Targets="" />
+  </Target>
+  <Target Name="VDM1:Clean">
+    <MSBuild Projects="Sources\VDM1\VDM1.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="VDM1:Make">
+    <MSBuild Projects="Sources\VDM1\VDM1.dproj" Targets="Make" />
+  </Target>
+  <Target Name="VT05_KB">
+    <MSBuild Projects="Sources\VT05_KB\VT05_KB.dproj" Targets="" />
+  </Target>
+  <Target Name="VT05_KB:Clean">
+    <MSBuild Projects="Sources\VT05_KB\VT05_KB.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="VT05_KB:Make">
+    <MSBuild Projects="Sources\VT05_KB\VT05_KB.dproj" Targets="Make" />
+  </Target>
+  <Target Name="vt100">
+    <MSBuild Projects="Sources\VT52\vt100.dproj" Targets="" />
+  </Target>
+  <Target Name="vt100:Clean">
+    <MSBuild Projects="Sources\VT52\vt100.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="vt100:Make">
+    <MSBuild Projects="Sources\VT52\vt100.dproj" Targets="Make" />
+  </Target>
+  <Target Name="VT52_KB">
+    <MSBuild Projects="Sources\VT52_KB\VT52_KB.dproj" Targets="" />
+  </Target>
+  <Target Name="VT52_KB:Clean">
+    <MSBuild Projects="Sources\VT52_KB\VT52_KB.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="VT52_KB:Make">
+    <MSBuild Projects="Sources\VT52_KB\VT52_KB.dproj" Targets="Make" />
+  </Target>
+  <Target Name="VT100_KB">
+    <MSBuild Projects="Sources\VT100_KB\VT100_KB.dproj" Targets="" />
+  </Target>
+  <Target Name="VT100_KB:Clean">
+    <MSBuild Projects="Sources\VT100_KB\VT100_KB.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="VT100_KB:Make">
+    <MSBuild Projects="Sources\VT100_KB\VT100_KB.dproj" Targets="Make" />
+  </Target>
+  <Target Name="z80">
+    <MSBuild Projects="Sources\Z80\z80.dproj" Targets="" />
+  </Target>
+  <Target Name="z80:Clean">
+    <MSBuild Projects="Sources\Z80\z80.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="z80:Make">
+    <MSBuild Projects="Sources\Z80\z80.dproj" Targets="Make" />
+  </Target>
+  <Target Name="ZX81_KB">
+    <MSBuild Projects="Sources\ZX81_KB\ZX81_KB.dproj" Targets="" />
+  </Target>
+  <Target Name="ZX81_KB:Clean">
+    <MSBuild Projects="Sources\ZX81_KB\ZX81_KB.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="ZX81_KB:Make">
+    <MSBuild Projects="Sources\ZX81_KB\ZX81_KB.dproj" Targets="Make" />
+  </Target>
+  <Target Name="Font_Editor">
+    <MSBuild Projects="Sources\Utilities\Font_Editor.dproj" Targets="" />
+  </Target>
+  <Target Name="Font_Editor:Clean">
+    <MSBuild Projects="Sources\Utilities\Font_Editor.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="Font_Editor:Make">
+    <MSBuild Projects="Sources\Utilities\Font_Editor.dproj" Targets="Make" />
+  </Target>
+  <Target Name="MM_Tape_ANSI">
+    <MSBuild Projects="Sources\MM_Tape_ANSI\MM_Tape_ANSI.dproj" Targets="" />
+  </Target>
+  <Target Name="MM_Tape_ANSI:Clean">
+    <MSBuild Projects="Sources\MM_Tape_ANSI\MM_Tape_ANSI.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="MM_Tape_ANSI:Make">
+    <MSBuild Projects="Sources\MM_Tape_ANSI\MM_Tape_ANSI.dproj" Targets="Make" />
+  </Target>
+  <Target Name="MM_Tape_DOS11">
+    <MSBuild Projects="Sources\MM_Tape_DOS11\MM_Tape_DOS11.dproj" Targets="" />
+  </Target>
+  <Target Name="MM_Tape_DOS11:Clean">
+    <MSBuild Projects="Sources\MM_Tape_DOS11\MM_Tape_DOS11.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="MM_Tape_DOS11:Make">
+    <MSBuild Projects="Sources\MM_Tape_DOS11\MM_Tape_DOS11.dproj" Targets="Make" />
+  </Target>
+  <Target Name="MM_Tape">
+    <MSBuild Projects="Sources\MM_Tape\MM_Tape.dproj" Targets="" />
+  </Target>
+  <Target Name="MM_Tape:Clean">
+    <MSBuild Projects="Sources\MM_Tape\MM_Tape.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="MM_Tape:Make">
+    <MSBuild Projects="Sources\MM_Tape\MM_Tape.dproj" Targets="Make" />
+  </Target>
+  <Target Name="MM_Disk">
+    <MSBuild Projects="Sources\MM_Disk\MM_Disk.dproj" Targets="" />
+  </Target>
+  <Target Name="MM_Disk:Clean">
+    <MSBuild Projects="Sources\MM_Disk\MM_Disk.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="MM_Disk:Make">
+    <MSBuild Projects="Sources\MM_Disk\MM_Disk.dproj" Targets="Make" />
+  </Target>
+  <Target Name="Macro11">
+    <MSBuild Projects="Sources\Assemblers\Macro11.dproj" Targets="" />
+  </Target>
+  <Target Name="Macro11:Clean">
+    <MSBuild Projects="Sources\Assemblers\Macro11.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="Macro11:Make">
+    <MSBuild Projects="Sources\Assemblers\Macro11.dproj" Targets="Make" />
+  </Target>
+  <Target Name="CEF32_OLE">
+    <MSBuild Projects="Sources\Remotes\OLE\CEF32_OLE.dproj" Targets="" />
+  </Target>
+  <Target Name="CEF32_OLE:Clean">
+    <MSBuild Projects="Sources\Remotes\OLE\CEF32_OLE.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="CEF32_OLE:Make">
+    <MSBuild Projects="Sources\Remotes\OLE\CEF32_OLE.dproj" Targets="Make" />
+  </Target>
+  <Target Name="CEF32_Mailslot">
+    <MSBuild Projects="Sources\Remotes\Mailslot\CEF32_Mailslot.dproj" Targets="" />
+  </Target>
+  <Target Name="CEF32_Mailslot:Clean">
+    <MSBuild Projects="Sources\Remotes\Mailslot\CEF32_Mailslot.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="CEF32_Mailslot:Make">
+    <MSBuild Projects="Sources\Remotes\Mailslot\CEF32_Mailslot.dproj" Targets="Make" />
+  </Target>
+  <Target Name="iAPX">
+    <MSBuild Projects="Sources\iAXP\iAPX.dproj" Targets="" />
+  </Target>
+  <Target Name="iAPX:Clean">
+    <MSBuild Projects="Sources\iAXP\iAPX.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="iAPX:Make">
+    <MSBuild Projects="Sources\iAXP\iAPX.dproj" Targets="Make" />
+  </Target>
+  <Target Name="i8253">
+    <MSBuild Projects="Sources\i8253\i8253.dproj" Targets="" />
+  </Target>
+  <Target Name="i8253:Clean">
+    <MSBuild Projects="Sources\i8253\i8253.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="i8253:Make">
+    <MSBuild Projects="Sources\i8253\i8253.dproj" Targets="Make" />
+  </Target>
+  <Target Name="Build">
+    <CallTarget Targets="AIM65_KB;Altair;Apple_2_KB;ASR33_KB;blockram;CEF_Util;cef32;cefclock;cefmemory;CEFSVM;Cosmac_Elf;DL11;EAE;F3850;GB_uCode;genscreen;HX20_KB;I8008;IMM860;Intellec8;KW11L;LA36;LA120_KB;LK201_KB;LK01_KB;LK02_KB;Null;Panel;PC11;PC108_KB;PDP11;PR11;RCA1802;RL11;S64K_RAM;S4M_RAM;serial;SIO;sol20;sol20_KB;SRAM;SVM_Code_RAM;SVMScreen;trs80;TRS80_1_KB;UNIBUS;VDM1;VT05_KB;vt100;VT52_KB;VT100_KB;z80;ZX81_KB;Font_Editor;MM_Tape_ANSI;MM_Tape_DOS11;MM_Tape;MM_Disk;Macro11;CEF32_OLE;CEF32_Mailslot;iAPX;i8253" />
+  </Target>
+  <Target Name="Clean">
+    <CallTarget Targets="AIM65_KB:Clean;Altair:Clean;Apple_2_KB:Clean;ASR33_KB:Clean;blockram:Clean;CEF_Util:Clean;cef32:Clean;cefclock:Clean;cefmemory:Clean;CEFSVM:Clean;Cosmac_Elf:Clean;DL11:Clean;EAE:Clean;F3850:Clean;GB_uCode:Clean;genscreen:Clean;HX20_KB:Clean;I8008:Clean;IMM860:Clean;Intellec8:Clean;KW11L:Clean;LA36:Clean;LA120_KB:Clean;LK201_KB:Clean;LK01_KB:Clean;LK02_KB:Clean;Null:Clean;Panel:Clean;PC11:Clean;PC108_KB:Clean;PDP11:Clean;PR11:Clean;RCA1802:Clean;RL11:Clean;S64K_RAM:Clean;S4M_RAM:Clean;serial:Clean;SIO:Clean;sol20:Clean;sol20_KB:Clean;SRAM:Clean;SVM_Code_RAM:Clean;SVMScreen:Clean;trs80:Clean;TRS80_1_KB:Clean;UNIBUS:Clean;VDM1:Clean;VT05_KB:Clean;vt100:Clean;VT52_KB:Clean;VT100_KB:Clean;z80:Clean;ZX81_KB:Clean;Font_Editor:Clean;MM_Tape_ANSI:Clean;MM_Tape_DOS11:Clean;MM_Tape:Clean;MM_Disk:Clean;Macro11:Clean;CEF32_OLE:Clean;CEF32_Mailslot:Clean;iAPX:Clean;i8253:Clean" />
+  </Target>
+  <Target Name="Make">
+    <CallTarget Targets="AIM65_KB:Make;Altair:Make;Apple_2_KB:Make;ASR33_KB:Make;blockram:Make;CEF_Util:Make;cef32:Make;cefclock:Make;cefmemory:Make;CEFSVM:Make;Cosmac_Elf:Make;DL11:Make;EAE:Make;F3850:Make;GB_uCode:Make;genscreen:Make;HX20_KB:Make;I8008:Make;IMM860:Make;Intellec8:Make;KW11L:Make;LA36:Make;LA120_KB:Make;LK201_KB:Make;LK01_KB:Make;LK02_KB:Make;Null:Make;Panel:Make;PC11:Make;PC108_KB:Make;PDP11:Make;PR11:Make;RCA1802:Make;RL11:Make;S64K_RAM:Make;S4M_RAM:Make;serial:Make;SIO:Make;sol20:Make;sol20_KB:Make;SRAM:Make;SVM_Code_RAM:Make;SVMScreen:Make;trs80:Make;TRS80_1_KB:Make;UNIBUS:Make;VDM1:Make;VT05_KB:Make;vt100:Make;VT52_KB:Make;VT100_KB:Make;z80:Make;ZX81_KB:Make;Font_Editor:Make;MM_Tape_ANSI:Make;MM_Tape_DOS11:Make;MM_Tape:Make;MM_Disk:Make;Macro11:Make;CEF32_OLE:Make;CEF32_Mailslot:Make;iAPX:Make;i8253:Make" />
+  </Target>
+  <Import Condition="Exists('$(MSBuildBinPath)\Borland.Group.Targets')" Project="$(MSBuildBinPath)\Borland.Group.Targets" />
+</Project>

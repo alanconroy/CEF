@@ -1,0 +1,27 @@
+radix 16
+unload_all
+load pdp11 "MODEL 34"
+load s4m_ram/name=MEM "low 0 high 3DFFF"
+load UNIBUS/name="UNIBUS"  "NOSWITCHES TERMINAL VT100 MODEL 20"
+load s64k_ram/name=M873 "low 259584. high 259612. load 'ttboot.rom' ROM"
+load s64k_ram/name=M9312 "low 256512. high 257022. load 'm9312.rom'"
+unsigned
+ascii
+word
+low 0
+radix 16
+high 3FFFF
+radix 8
+connect "PDP-11" "MEM"
+connect "PDP-11" "UNIBUS"
+connect "PDP-11" "M873"
+connect "PDP-11" "M9312"
+connect "UNIBUS" "M873"
+connect "UNIBUS" "M9312"
+disconnect "PDP-11" "Default Memory"
+caption "DEC PDP-11/34"
+immediate ".ZERO"
+immediate "ORG 165020"
+run
+
+

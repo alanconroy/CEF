@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<PersonalityInfo>
+		<Option>
+			<Option Name="Personality">Default.Personality</Option>
+			<Option Name="ProjectType"></Option>
+			<Option Name="Version">1.0</Option>
+			<Option Name="GUID">{9250635D-47F4-4336-AD0D-41432BAA60C3}</Option>
+		</Option>
+	</PersonalityInfo>
+	<Default.Personality>  <Projects>
+      <Projects Name="cef32.exe">Sources\CEF32\cef32.bdsproj</Projects>
+      <Projects Name="CEF_Util.dll">Sources\CEF_Util\CEF_Util.bdsproj</Projects>
+      <Projects Name="cefclock.dll">Sources\CEFClock\cefclock.bdsproj</Projects>
+      <Projects Name="cefmemory.dll">Sources\CEFMemory\cefmemory.bdsproj</Projects>
+      <Projects Name="S64K_RAM.dll">Sources\S64K_RAM\S64K_RAM.bdsproj</Projects>
+      <Projects Name="S4M_RAM.dll">Sources\S4M_RAM\S4M_RAM.bdsproj</Projects>
+      <Projects Name="genscreen.dll">Sources\GenScreen\genscreen.bdsproj</Projects>
+      <Projects Name="VDM1.dll">Sources\VDM1\VDM1.bdsproj</Projects>
+      <Projects Name="Null.dll">Sources\Null\Null.bdsproj</Projects>
+      <Projects Name="Panel.dll">Sources\Panel\Panel.bdsproj</Projects>
+      <Projects Name="EAE.dll">Sources\EAE\EAE.bdsproj</Projects>
+      <Projects Name="KW11L.dll">Sources\KW11L\KW11L.bdsproj</Projects>
+      <Projects Name="serial.dll">Sources\Serial\serial.bdsproj</Projects>
+      <Projects Name="SIO.dll">Sources\SIO\SIO.bdsproj</Projects>
+      <Projects Name="IMM860.dll">Sources\IMM860\IMM860.bdsproj</Projects>
+      <Projects Name="DL11.dll">Sources\DL11\DL11.bdsproj</Projects>
+      <Projects Name="I8008.dll">Sources\I8008\I8008.bdsproj</Projects>
+      <Projects Name="F3850.dll">Sources\F3850\F3850.bdsproj</Projects>
+      <Projects Name="PDP11.dll">Sources\PDP11\PDP11.bdsproj</Projects>
+      <Projects Name="RCA1802.dll">Sources\RCA1802\RCA1802.bdsproj</Projects>
+      <Projects Name="z80.dll">Sources\Z80\z80.bdsproj</Projects>
+      <Projects Name="GB_uCode.dll">Sources\Gigabyte_uCode\GB_uCode.bdsproj</Projects>
+      <Projects Name="AIM65_KB.dll">Sources\AIM65_KB\AIM65_KB.bdsproj</Projects>
+      <Projects Name="Apple_2_KB.dll">Sources\Apple_2_KB\Apple_2_KB.bdsproj</Projects>
+      <Projects Name="ASR33_KB.dll">Sources\ASR33_KB\ASR33_KB.bdsproj</Projects>
+      <Projects Name="HX20_KB.dll">Sources\HX20_KB\HX20_KB.bdsproj</Projects>
+      <Projects Name="LA120_KB.dll">Sources\LA120_KB\LA120_KB.bdsproj</Projects>
+      <Projects Name="LK01_KB.dll">Sources\LK01_KB\LK01_KB.bdsproj</Projects>
+      <Projects Name="LK02_KB.dll">Sources\LK02_KB\LK02_KB.bdsproj</Projects>
+      <Projects Name="LK201_KB.dll">Sources\LK201_KB\LK201_KB.bdsproj</Projects>
+      <Projects Name="VT05_KB.dll">Sources\VT05_KB\VT05_KB.bdsproj</Projects>
+      <Projects Name="VT52_KB.dll">Sources\VT52_KB\VT52_KB.bdsproj</Projects>
+      <Projects Name="VT100_KB.dll">Sources\VT100_KB\VT100_KB.bdsproj</Projects>
+      <Projects Name="PC108_KB.dll">Sources\PC108_KB\PC108_KB.bdsproj</Projects>
+      <Projects Name="sol20_KB.dll">Sources\SOL20_KB\sol20_KB.bdsproj</Projects>
+      <Projects Name="TRS80_1_KB.dll">Sources\TRS80_1_KB\TRS80_1_KB.bdsproj</Projects>
+      <Projects Name="ZX81_KB.dll">Sources\ZX81_KB\ZX81_KB.bdsproj</Projects>
+      <Projects Name="LA36.dll">Sources\LA36\LA36.bdsproj</Projects>
+      <Projects Name="vt100.dll">Sources\VT100\vt100.bdsproj</Projects>
+      <Projects Name="Altair.dll">Sources\Altair\Altair.bdsproj</Projects>
+      <Projects Name="Cosmac_Elf.dll">Sources\Cosmac Elf\Cosmac_Elf.bdsproj</Projects>
+      <Projects Name="Intellec8.dll">Sources\Intellec8\Intellec8.bdsproj</Projects>
+      <Projects Name="sol20.dll">Sources\SOL20\sol20.bdsproj</Projects>
+      <Projects Name="trs80.dll">Sources\TRS80\trs80.bdsproj</Projects>
+      <Projects Name="UNIBUS.dll">Sources\UNIBUS\UNIBUS.bdsproj</Projects>
+      <Projects Name="RL11.dll">Sources\RL11\RL11.bdsproj</Projects>
+      <Projects Name="PC11.dll">Sources\PC11\PC11.bdsproj</Projects>
+      <Projects Name="PR11.dll">Sources\PR11\PR11.bdsproj</Projects>
+      <Projects Name="iAPX.dll">Sources\iAXP\iAPX.bdsproj</Projects>
+      <Projects Name="MM_Tape_ANSI.dll">Sources\MM_Tape_ANSI\MM_Tape_ANSI.bdsproj</Projects>
+      <Projects Name="MM_Tape_DOS11.dll">Sources\MM_Tape_DOS11\MM_Tape_DOS11.bdsproj</Projects>
+      <Projects Name="MM_Tape.dll">Sources\MM_Tape\MM_Tape.bdsproj</Projects>
+      <Projects Name="Font_Editor.exe">Sources\Utilities\Font_Editor.bdsproj</Projects>
+      <Projects Name="CEF32_OLE.dll">Sources\Remotes\OLE\CEF32_OLE.bdsproj</Projects>
+      <Projects Name="CEF32_Mailslot.dll">Sources\Remotes\Mailslot\CEF32_Mailslot.bdsproj</Projects>
+      <Projects Name="Targets">cef32.exe CEF_Util.dll cefclock.dll cefmemory.dll S64K_RAM.dll S4M_RAM.dll genscreen.dll VDM1.dll Null.dll Panel.dll EAE.dll KW11L.dll serial.dll SIO.dll IMM860.dll DL11.dll I8008.dll F3850.dll PDP11.dll RCA1802.dll z80.dll GB_uCode.dll AIM65_KB.dll Apple_2_KB.dll ASR33_KB.dll HX20_KB.dll LA120_KB.dll LK01_KB.dll LK02_KB.dll LK201_KB.dll VT05_KB.dll VT52_KB.dll VT100_KB.dll PC108_KB.dll sol20_KB.dll TRS80_1_KB.dll ZX81_KB.dll LA36.dll vt100.dll Altair.dll Cosmac_Elf.dll Intellec8.dll sol20.dll trs80.dll UNIBUS.dll RL11.dll PC11.dll PR11.dll iAPX.dll MM_Tape_ANSI.dll MM_Tape_DOS11.dll MM_Tape.dll Font_Editor.exe CEF32_OLE.dll CEF32_Mailslot.dll</Projects>
+    </Projects>
+    <Dependencies/>
+  </Default.Personality>
+</BorlandProject>

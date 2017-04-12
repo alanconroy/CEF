@@ -1,0 +1,24 @@
+hide
+radix 16
+unload_all
+load z80 "8080"
+load s64k_ram/name=LOMEM "low 0 high bfff"
+load s64k_ram/name=ROM "low c000 high c7FF load 'pt_sol20_Solos.dmp' ROM"
+load s64k_ram/name=HIGHMEM "low c800 high cbff"
+load s64k_ram/name=TOPMEM "low d000 high ffff"
+load sol20
+unsigned
+ascii
+byte
+low 0
+high FFFF
+connect "CEF Z80" "LOMEM"
+connect "CEF Z80" "ROM"
+connect "CEF Z80" "HIGHMEM"
+connect "CEF Z80" "TOPMEM"
+connect "CEF Z80" "SOL-20"
+disconnect "CEF Z80" "Default Memory"
+caption "SOL-20"
+immediate "ORG C000"
+run
+

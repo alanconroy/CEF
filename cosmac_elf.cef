@@ -1,0 +1,18 @@
+hide
+unload_all
+radix 16
+load RCA1802/name="1802"
+load s64k_ram/name=MEM "low 0 high ffff"
+load Cosmac_Elf/name=ELF
+unsigned
+ascii
+byte
+low 0
+high FFFF
+connect "ELF" "MEM"
+connect "1802" "ELF"
+disconnect "1802" "Default Memory"
+disconnect "ELF" "Default Memory"
+caption "Cosmac Elf"
+
+

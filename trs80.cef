@@ -1,0 +1,20 @@
+unload_all
+load z80
+radix 16
+load s64k_ram/name=ROM "low 0 high 2FFF load 'LEVEL2LC.ROM' ROM"
+load s64k_ram "low 3000 high FFFF"
+unsigned
+ascii
+byte
+low 0
+high FFFF
+connect "CEF Z80" "CEF Generic 64K Memory"
+connect "CEF Z80" "ROM"
+disconnect "CEF Z80" "Default Memory"
+load trs80 "start 3C00 lines 16. columns 64."
+connect "CEF Z80" "TRS80 Screen"
+load panel "data 8. address 16."
+connect "CEF Z80" "CEF Generic Front Panel"
+connect "CEF Generic 64K Memory" "CEF Generic Front Panel"
+connect "ROM" "CEF Generic Front Panel"
+caption "TRS-80"

@@ -1,0 +1,22 @@
+radix 16
+unload_all
+load i8008
+load s64k_ram/name=MEM "low 0 high 3fff"
+load imm860
+load intellec8 "data 8. address 16."
+load vt52
+unsigned
+ascii
+word
+radix 16
+low 0
+high 3FFF
+radix 8
+connect "Intel 8008" "Intellec8"
+connect "Intel 8008" "MEM"
+connect "Intel 8008" "IMM860"
+disconnect "Intel 8008" "Default Memory"
+connect "VT52" "IMM860"
+caption "Intellec8"
+
+

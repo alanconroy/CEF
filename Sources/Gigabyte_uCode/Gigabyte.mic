@@ -1,0 +1,2264 @@
+;		Program Name : GigaByte Microcode
+;		Package Name : GigaByte
+;		Purpose	     : Microcode for GigaByte CPU
+;		Institution  : Conroy & Conroy Company
+;		Date Written : 19-Jun-1981
+;		Written By   : Alan Conroy
+;		Version      : 1.0
+;
+;	*********************************************************
+;	*							*
+;	*	M O D I F I C A T I O N   H I S T O R Y		*
+;	*							*
+;	*    DATE	BY		REASON			*
+;	*							*
+;	*********************************************************
+;
+;	*********************************************************
+;	*							*
+;	*	P R O G R A M   P U R P O S E			*
+;	*							*
+;	*********************************************************
+;
+;	GigaByte Processor Microcode
+;
+; Microcode source conventions:
+;
+; Symbol	Meaning
+; ------	-------
+; >		INTO
+; X		(bits 8-11)
+; Y		(bits 4-7)
+; Z		(bits 0-3)
+; Temp		Temporary register
+; T(TS)		Time in 1/10 seconds
+; T(S)		Time in seconds
+; T(M)		Time in minutes
+; T(H)		Time in hours
+; T(DW)		Time in day-of-week
+; T(MO)		Time in months
+; T(Y)		Time in years
+; Temp		Temporary register
+; SB		Status byte:
+;                   bit    description
+;                   ---    -----------
+;                   0      Carry flag
+;                   1      Interrupt flag (0 = enabled)
+;                   2      Zero flag
+;                   3-4    Mode (Ring)
+;                   5      Hardware interrupt (1)
+;                   6-7    reserved
+; M		Memory
+; ALUAL		Arithmetic/Logic Unit register A low 32 bits
+; ALUAH		Arithmetic/Logic Unit register A high 32 bits
+; ALUBL		Arithmetic/Logic Unit register B low 32 bits
+; ALUBH		Arithmetic/Logic Unit register B high 32 bits
+; ALUL		Arithmetic/Logic Unit result low 32 bits
+; ALUH		Arithmetic/Logic Unit result high 32 bits
+; PC		Program counter
+; SP		Stack pointer
+; IP		Interrupt pointer (Saved PC)
+; RC		ROM counter (Microcode pointer)
+; DAH		DATA to ADDRESS register (high)
+; DAL		DATA to ADDRESS register (low)
+; DA1H		DATA to ADDRESS register 1 (high)
+; DA1L		DATA to ADDRESS register 1 (low)
+; DI		Disable Interrupts
+; EI		Enable Interrupts
+; +		Increment
+; -		Decrement
+; CT            Clear bit (specified by bus) in Temp
+; ST            Set bit (specified by bus) in Temp
+; IFZS          IF bit (specified by bus) in register(Z) is set
+; IFZC          IF bit (specified by bus) in register(Z) is clear
+; IFZ           IF Temp=0
+; IFNZ          IF Temp<>0
+; IFSS          IF bit (specified by bus) in Status is set
+; IFSC          IF bit (specified by bus) in Status is clear
+; IFTS          IF bit (specified by bus) in Temp is set
+; IFTC          IF bit (specified by bus) in Temp is clear
+; IFNK          IF not Kernel mode (ring 0)
+; END		End current instruction
+; RESET		Reset processor
+; DEFINE	Starts new instruction (also ends previous one)
+; MREAD		Read memory (32 bit)
+; MWRITE	Write memory (32 bit)
+; MREAD8	Read memory (8 bit)
+; WMRITE8	Write memory (8 bit)
+; MREAD16	Read memory (16 bit)
+; MWRITE16	Write Memory (16 bit)
+; LOCK		Lock system bus
+; UNLOCK	Unlock system bus
+; LATCH	PC	Latch PC to address bus
+; LATCH	SP	Latch SP to address bus
+; LATCH DA1     Latch DA1 to address bus
+; UNLATCH	Unlatch SP/PC from address bus (latches DA to bus)
+; CLEAR CLOCK	Reset clock
+; CC		Clear carry
+; SHL		ALU shift left
+; SHR		ALU shift right
+; SHLC		ALU shift left through carry
+; SHRC		ALU shift right through carry
+; COMPLEMENT	ALU 1's complement
+; INCREMENT     ALUA + 1
+; AND		ALU AND
+; NAND		ALU NAND
+; OR		ALU OR
+; NOR		ALU NOR
+; XOR		ALU XOR
+; XNOR		ALU XNOR
+; DAA		ALU Decimal (BCD) Add
+; DAS           ALU Decimal (BCD) Subtraction
+; ADD		ALUA + ALUB
+; ADDC		ALUA + ALUB + Carry
+; SUBTRACT	ALUA - ALUB
+; SUBTRACTB	ALUA - ALUB with borrow from carry
+; MULTIPLY	ALU Multiply
+; JUMP          Jump back in microcode (offset in data)
+; RESUME        Mark ROM address as resume point and allow interrupt handling
+; CHECK         Kernel check (if not kernel mode, cause interrupt 24)
+;
+;
+; Reserved Interrupts:
+;
+; Interrupt     Description
+; ---------     -----------
+; 0             Divide by zero (0)
+; 1             Generic interrupt (8)
+; 2             Invalid instruction (16)
+; 3             Privilege violation (24)
+; 4-31          reserved
+;
+;
+; microcode ROM layout:
+;
+; bit(s)    description
+; ------    -----------
+; 0-4       Internal operation:
+;               0 = no op
+;               1 = move to bus from source
+;               2 = move from bus to destination
+;               3 = Clear carry
+;               4 = Jump to <Data> microcode addresses
+;               5 = Enter halt state
+;               6 = Enable interrupts
+;               7 = Disable interrupts
+;               8 = ALU operation (Data)
+;               9 = Set bit (specified by bus) in Register(Z)
+;               10 = Clear bit (specified by bus) in Register(Z)
+;               11 = IF bit (specified by bus) in register(Z) is set
+;               12 = IF bit (specified by bus) in register(Z) is clear
+;               13 = IF Temp=0
+;               14 = IF bit (specified by bus) in Status is set
+;               15 = IF bit (specified by bus) in Status is clear
+;               16 = IF bit (specified by bus) in Temp is set
+;               17 = IF bit (specified by bus) in Temp is clear
+;               18 = IF Temp<>0
+;               19 = Clear bit (specified by bus) in Temp
+;               20 = Load current ROM address into RESUME register
+;               21 = IF Mode (ring) > 0
+;               22 = Kernel check
+;               23 = Clear clock
+;               24 = Set bit (specified by bus) in Temp
+;               25-31 = reserved
+; 5-9       Source/Destination:
+;               0 = Register(X)
+;               1 = Register(Y)
+;               2 = Register(Z)
+;               3 = Status (SB)
+;               4 = unused
+;               5 = Data (source)
+;               6 = T (TS)
+;               7 = T (S)
+;               8 = T (M)
+;               9 = T (H)
+;               10 = T (DW)
+;               11 = T (MO)
+;               12 = T (Y)
+;               13 = unused
+;               14 = ALUA Lo (destination) or ALU Lo (source)
+;               15 = ALUA Hi (destination) or ALU Hi (source)
+;               16 = ALUB Lo
+;               17 = ALUB Hi
+;               18 = PC Lo
+;               19 = PC Hi
+;               20 = SP Lo
+;               21 = SP Hi
+;               22 = unused (Decrement Temp ?)
+;               23 = D/A Lo (DAL)
+;               24 = D/A Hi (DAH)
+;		25 = IP Lo (IPL)
+;		26 = IP Hi (IPH)
+;		27 = Temp Lo (TempL)
+;		28 = Temp Hi (TempH)
+;               29 = D/A 1 Lo (DA1L)
+;               30 = D/A 1 Hi (DA1H)
+;               31 = unused
+; 10-11		Memory/port I/O size:
+;		    0 = 32 bit
+;		    1 = 16 bit
+;		    2 = 8 bit
+;		    3 = unused
+; 12		End instruction
+; 13		Increment PC
+; 14		Increment D/A
+; 15		Increment SP
+; 16		Decrement SP
+; 17            Decrement Temp
+; 18-21         External operation:
+;                   0 = no op
+;                   1 = Memory read (DA, SP, or PC)
+;                   2 = Memory write (DA, SP, or PC)
+;                   3 = Input
+;                   4 = Output
+;                   5 = Lock bus
+;                   6 = Latch SP to Address bus
+;		    7 = Latch PC to Address bus
+;                   8 = UnLATCH (latch D/A to address bus)
+;                   9 = Latch DA1 to address bus
+;		    10 = Unlock bus
+;                   11 = unused
+;                   12 = Raise INTA
+;                   13 = Lower INTA
+;                   14-15 = unused
+; 22            Increment D/A 1
+; 23-38         Data (0-65535) - Literal or ALU opcode
+; 39            Decrement PC
+;
+; Increment and decrement operations on the D/A, D/A 1, PC, and SP always
+; increment/decrement by 2.  Decrement on Temp is always by 1.
+;
+; IF operations do the following: if specified bit is in the checked state, the
+; microcode pointer is incremented twice while the ROM outputs are ignored.
+; Otherwise, microcode execution continues normally.
+;
+; Normally the D/A register is latched to the address bus for memory and port
+; operations, but the SP can be latched instead.  Memory R/W and port I/O goes
+; directly to/from the Bus register.
+;
+;
+; External interface
+; ==================
+; Name      Direction    Description
+; ----      ---------    -----------
+; MEMORY    Out          Indicates a memory operation
+; IO        Out          Indicates an I/O operation
+; READ      Out          1 indicates a read, 0 indicates a write (only valid when MEMORY or IO is active)
+; LOCK      Out          Locks bus
+; RESET     In           Resets the CPU
+; SINT      In           Simple Interrupt request
+; INT       In           Interrupt being requested
+; INTA      Out          Interrupt acknowledged
+; PAUSE     In           Pauses execution on the end of the current instruction until the signal is removed
+; PAUSED    Out          Indicates that the CPU has finished the current instruction and is now blocked
+; HALT      In           Halts the CPU
+; HALTED    Out          Indicates that the CPU is halted.  Must be reset to resume.
+; A0-A63    Out          Memory or I/O Address
+; D0-D31    In/Out       Data lines
+; S0-S1     Out          Operation size:
+;                               S0 S1 Meaning
+;                               -- -- -------
+;                               0  0  32 bits
+;                               0  1  16 bits
+;                               1  0  8 bits
+;                               1  1  unused
+;
+;
+; Machine architecture notes
+; --------------------------
+; On CPU reset, the data at microcode address 0 is executed.
+;
+; CPU reset and interrupts are the only means of starting the processor after
+; a halt.  If interrupts are disabled, reset is the only means.
+;
+; When an instruction begins, the first clock is a fetch (32-bit memory read
+; with PC latched to address lines).  When memory responds, the next clock is
+; a decode which is: load the microcode pointer from the microcode decode ROM
+; (dereference the instruction).  Simultaneous with that the PC is incremented
+; by 2.  Each clock after that executes the microcode and then increments the
+; pointer.  When the instruction ends, the next fetch begins.
+;
+; On simple interrupt, the address of the INT routine is loaded into the
+; microcode pointer.  And execution proceeds as normal.  Interrupts are blocked
+; if the IE bit is 0.  If IE is 0, the interrupt is latched and executes
+; as soon as IE is 1.
+;
+; On vectored interrupt, the interrupt is ignored if IE is 0.  Otherwise,
+; INTA is raised and the VINT address is loaded and execution continues as normal.
+;
+; Data registers are 32-bits, Temp, ALU, and address registers are 64 bits.
+; Instructions are multiples of 32-bits
+;
+; The microcode store contains two areas: 1) the microcode, and 2) instruction
+; vectors.  The microcode occupies a theoretical maximum of 64K 5-byte words,
+; but is assumed to only be large enough for about 10K microcide instructions.
+; The vectors define the microcode address for 16-bit op-codes (128 Kb).
+;
+;
+; Instruction set
+; ---------------
+; The stack pointer is always at the last piece of data, minus 1.  Data is
+; stored on the stack in the form of:
+;					High (first)
+;					Low (next)
+; The stack is FILO and is filled from higher to lower memory locations. Data
+; is recalled:
+;		Low (first)
+;		High (next)
+; When a CALL is executed, the PC is not incremented, but when a RETURN is
+; executed, the PC is incremented 3 times.
+;
+; All shift instructions are ring shifts at the hardware level.
+;
+; WIN and WOUT assume that Z is the status port.  They also assume:
+;	bit	meaning
+;	---	-------
+;	0	In.  0 = No, 1 = Yes
+;	1	Out. 0 = No, 1 = Yes
+;
+;
+; Special microcode routines
+;
+; Certain defined routines are reserved for special cases.  They are named:
+;
+; Name          Description
+; ----          -----------
+; RESET         CPU reset operation.  This must be first define so that the
+;               compiles to address 0, because the hardware runs microcode
+;               address 0 on reset.
+; INT           Generic interrupt handler.  Address stored at ROM FFFEH.
+; VINT          Vectored interrupt handler.  Address stored at ROM FFFCH.
+; ****          Invalid op-code handler.  Address stored at ROM FFFAH.
+; PINT          Failed Kernel mode check handler.  Address stored at ROM FFF8H.
+;
+;
+;
+; INSTRUCTION SET
+;
+; op	pulse
+; code	count	Mnuemonic	Instruction
+; ----	-----	---------	-----------
+; 00YZ	2	MOV Y,Z		Move register Y into Z
+; 01YZ	2	EXC Y,Z		Exchange registers Y and Z
+; 02YZ	2	SSX Y,Z		Store register pair Y,Z on stack
+; 03YZ	2	LSX Y,Z		Load register pair Y,Z from stack
+; 04YZ	3	INX Y,Z		Increment register pair Y,Z
+; 05YZ	3	DEX Y,Z		Decrement register pair Y,Z
+; 06YZ	2	SPC Y,Z		Set Program Counter from register pair Y,Z
+; 07YZ	2	SSP Y,Z		Set Stack Pointer from register pair Y,Z
+; 08YZ	2	SIP Y,Z		Set Interrupt Pointer from register pair Y,Z
+; 09YZ	3	SHLX Y,Z	Shift register pair Y,Z left one bit
+; 0AYZ	3	SLCX Y,Z	Shift register pair Y,Z left one bit with carry
+; 0BYZ	3	SHRX Y,Z	Shift register pair Y,Z right one bit
+; 0CYZ	3	SRCX Y,Z	Shift register pair Y,Z right one bit with carry
+; 0DYZ	3	CMM Y,Z		Complement memory specified by register pair Y,Z
+; 0EYZ	3	RSM Y,Z		Reset memory specified by register pair Y,Z
+; 0FYZ	3	DAX Y,Z		Decimal adjust register pair Y,Z
+; 100Z	2	SST Z		Store register Z on stack
+; 101Z	2	LST Z		Load register Z from stack
+; 102Z	2	INC Z		Increment register Z
+; 103Z	2	DEC Z		Decrement register Z
+; 104Z	1	LSB SB,Z	Move Status Byte to register Z
+; 105Z	1	SSB Z,SB	Move register Z to Status Byte
+; 106Z	2	MVI Z		Move immediate into register Z
+; 107Z	1	STI Z		Move register Z to immediate
+; 108Z	2	SHL Z		Shift register Z left one bit
+; 109Z	2	SLC Z		Shift register Z left one bit with carry
+; 10AZ	2	SHR Z		Shift register Z right one bit
+; 10BZ	2	SRC Z		Shift register Z right one bit with carry
+; 10CZ	2	COM Z		Complement register Z
+; 10DZ	2	DAR Z		Decimal adjust register Z
+; 10EZ	3	DAD Z		Double add register Z
+; 10FZ	2	RES Z		Reset register Z
+; 110Z	2	MVM Z		Move register Z to direct memory
+; 111Z	2	LDM Z		Load register Z from direct memory
+; 112Z		SWAP Z		Swap bytes in register Z
+; 113Z	2	OUT Z		Output register Z (low 8 bits) to immediate
+; 114Z	2	INP Z		Input register Z (low 8 bits) from immediate
+; 115Z	2	MLO Z		Move immediate byte to low byte of register Z
+; 116Z	2	MHI Z		Move immediate byte to high byte of register Z
+; 117Z		PUSH Z		Push register Z to stack
+; 118Z		POP Z		Pop stack to register Z
+; 119Z		---
+; 11AZ		---
+; 11BZ		---
+; 11CZ		---
+; 11DZ		EXS Z		Exchange Z with stack
+; 11EZ		---
+; 11FZ		---
+; 120Z	1	STTS Z		Set 1/10 seconds from register Z
+; 121Z	1	STS Z		Set seconds from register Z
+; 122Z	1	STM Z		Set minutes from register Z
+; 123Z	1	STH Z		Set hours from register Z
+; 124Z	1	STDW Z		Set day of week from register Z
+; 125Z	1	STDM Z		Set day of month from register Z
+; 126Z	1	STMY Z		Set month from register Z
+; 127Z	1	STY Z		Set year from register Z
+; 128Z	1	LTTS Z		Set register Z from 1/10 seconds
+; 129Z	1	LTS Z		Set register Z from seconds
+; 12AZ	1	LTM Z		Set register Z from minutes
+; 12BZ	1	LTH Z		Set register Z from hours
+; 12CZ	1	LTDW Z		Set register Z from day of week
+; 12DZ	1	LTDM Z		Set register Z from day of month
+; 12EZ	1	LTMY Z		Set register Z from month
+; 12FZ	1	LTY Z		Set register Z from year
+; 130Z		---
+; 131Z		---
+; 132Z		---
+; 133Z		---
+; 134Z		---
+; 135Z		---
+; 136Z		---
+; 137Z		---
+; 138Z		WIN Z		Wait for input from port Z
+; 139Z		WOUT Z		Wait for output to port Z to complete
+; 13AZ	2	CPI Z		Compare immediate with register Z
+; 13BZ	3	CPD Z		Compare direct with register Z
+; 13CZ	3	XNORI Z		XNOR register Z with immediate
+; 13DZ	4	XNORD Z		XNOR register Z with direct
+; 13EZ	3	XORI Z		XOR register Z with immediate
+; 13FZ	4	XORD Z		XOR register Z with direct
+; 140Z	3	ADDI Z		Add immediate to register Z
+; 141Z	3	ADIC Z		Add immediate to register Z with carry
+; 142Z	4	ADD Z		Add direct to register Z
+; 143Z	4	ADDC Z		Add direct to register Z with carry
+; 144Z	3	SUBI Z		Subtract immediate from register Z
+; 145Z	3	SBIB Z		Subtract immediate from register Z with borrow
+; 146Z	4	SUBD Z		Subtract direct from register Z
+; 147Z	4	SBDB Z		Subtract direct from register Z with borrow
+; 148Z	3	ANDI Z		AND register Z with immediate
+; 149Z	4	ANDD Z		AND register Z with direct
+; 14AZ	3	NANDI Z		NAND register Z with immediate
+; 14BZ	4	NANDD Z		NAND register Z with direct
+; 14CZ	3	ORI Z		OR register Z with immediate
+; 14DZ	4	ORD Z		OR register Z with direct
+; 14EZ	3	NORI Z		NOR register Z with immediate
+; 14FZ	4	NORD Z		NOR register Z with direct
+; 15YZ	4	ADIX Y,Z	ADD immediate to register pair Y,Z
+; 16YZ	4	ADIXC Y,Z	Add immediate to register pair Y,Z with carry
+; 17YZ	3	ADDX Y,Z	Add register Y to Z, store in register pair Y,Z
+; 18YZ	3	SBIX Y,Z	Subtract immediate from register pair Y,Z
+; 19YZ	4	SBDX Y,Z	Subtract direct from register pair Y,Z
+; 1AYZ	3	SUBX Y,Z	Subtract register Z from register Y, store in Z
+; 1BYZ	4	ANIX Y,Z	AND immediate with register pair Y,Z
+; 1CYZ	5	ANDX Y,Z	AND direct with register pair Y,Z
+; 1DYZ	3	ANX Y,Z		AND register Y and register Z, store in pair Y,Z
+; 1EYZ	3	COMX Y,Z	Complement register pair Y,Z
+; 1FYZ	2	CPX Y,Z		Compare register Y and Z
+; 20YZ	4	NAIX Y,Z	NAND immediate with register pair Y,Z
+; 21YZ	5	NADX Y,Z	NAND direct with register pair Y,Z
+; 22YZ	3	NANX Y,Z	NAND register Y and register Z, store in Z
+; 23YZ	4	ORIX Y,Z	OR immediate with register pair Y,Z
+; 24YZ	5	ORDX Y,Z	OR direct with register pair Y,Z
+; 25YZ	3	ORX Y,Z		OR register Y and register Z, store in register pair Y,Z
+; 26YZ	4	NOIX Y,Z	NOR immediate with register pair Y,Z
+; 27YZ	5	NODX Y,Z	NOR direct with register pair Y,Z
+; 28YZ	3	NORX Y,Z	NOR register Y and register Z, store in Z
+; 29YZ	4	XOIX Y,Z	XOR immediate with register pair Y,Z
+; 2AYZ	5	XORDX Y,Z	XOR direct with register pair Y,Z
+; 2BYZ	3	XORX Y,Z	XOR register Y and register Z, store in Z
+; 2CYZ	4	XNIX Y,Z	XNOR immediate with register pair Y,Z
+; 2DYZ	5	XNDX Y,Z	XNOR direct with register pair Y,Z
+; 2EYZ	3	XNOX Y,Z	XNOR register Y and register Z, store in Z
+; 2FYZ	2	EXCX Y,Z	Exchange register Y with register Z
+; 30YZ	3	MVIX Y,Z	Multiply Z with immediate, store in Y,Z
+; 31YZ	4	MUDX Y,Z	Multiply Z with direct, store in Y,Z
+; 32YZ	3	MULX Y,Z	Multiply Y with register Z, store in Y,Z
+; 33YZ	3	---
+; 34YZ	4	---
+; 35YZ	3	---
+; 36YZ	5	CDIY Y,Z	Call direct if Yth bit in register Z set
+; 37YZ	5	CDNY Y,Z	Call direct if Yth bit in register Z not set
+; 38YZ	3	JDY Y,Z		Jump direct if Yth bit in register Z set
+; 39YZ	3	JDNY Y,Z	Jump direct if Yth bit in register Z not set
+; 3AYZ	4	RIY Y,Z		Return if Yth bit in register Z set
+; 3BYZ	4	RNY Y,Z		Return if Yth bit in register Z not set
+; 3CYZ	2	SEY Y,Z		Set bit Y in register Z
+; 3DYZ	2	RSTY Y,Z	Reset bit Y in register Z
+; 3EYZ	2	JMX Y,Z		Jump to address in memory specified by pair Y,Z
+; 3FYZ	4	CMX Y,Z		Call to address in memory specified by pair Y,Z
+; 4XYZ	3	STZX Y,Z	Store register X to memory specified by pair Y,Z
+; 5XYZ	3	LZX Y,Z		Load register X from memory specified by pair Y,Z
+; 6000	1	NOP		No operation
+; 6001	1	HLT		Halt
+; 6002	2	RTN		Return
+; 6003	2	CALL		Call direct
+; 6004	2	JMP		Jump direct
+; 6005	1	MP		Memory protect
+; 6006	1	MUP		Memory unprotect
+; 6007	1	DI		Disable interrupt
+; 6008	1	EI		Enable interrupt
+; 6009	1	RSTC		Reset clock
+; 600A	1	RESET		Reset processor
+; 600B		RTI		Return from interrupt
+; 600C		POP		Pop data off of stack
+; 600D		SSKP		Skip next byte
+; 600E		DSKP		Double skip next byte
+; 600F		SIMI		Simulate interrupt
+; 6010		---
+; 6011		---
+; 6012		---
+; 6013		MIMI		Move immediate byte to memory specified by following address
+; 6014		MMMI		Move byte in memory specified by next address to memory specified by following address
+; 6015		---
+; 6016		---
+; 6017		---
+; 6018		---
+; 6019		---
+; 601A		---
+; 601B		---
+; 601C		---
+; 601D		---
+; 601E		---
+; 601F		---
+; 602Z		MIM Z		Move Z to location specified by immediate address
+; 603Z		---
+; 604Z		---
+; 605Z		---
+; 606Z		---
+; 607Z		---
+; 608Z		---
+; 609Z		---
+; 60AZ		---
+; 60BZ		---
+; 60CZ		---
+; 60DZ		---
+; 60EZ		---
+; 60FZ		---
+; 61YZ		MMMX Y,Z	Move immediate 8 bits to memory specified by YZ
+; 62YZ		MXMI Y,Z	Move memory byte specified by YZ to location specified by immediate
+; 63YZ		---
+; 64YZ		---
+; 65YZ		---
+; 66YZ		BMXI Y,Z	Block move (YZ) bytes from immediate to immediate+1 (moves an even number of bytes)
+; 67YZ		BSXI Y,Z	Block search for immediate byte, beginning at memory specified by YZ, store location in YZ
+; 68YZ		---
+; 69YZ		---
+; 6AYZ		---
+; 6BYZ		---
+; 6CYZ		---
+; 6DYZ		---
+; 6EYZ		---
+; 6FYZ		---
+; 70YZ		---
+; 71YZ		EXXS Y,Z	Exchange YZ with stack
+; 72YZ		PUSH Y,Z	Push YZ to stack
+; 73YZ		POP Y,Z		Pop stack to YZ
+; 74xx		---
+; 75xx		---
+; 76xx		---
+; 77xx		---
+; 78xx		---
+; 79xx		---
+; 7Axx		---
+; 7Bxx		---
+; 7Cxx		---
+; 7Dxx		---
+; 7Exx		---
+; 7Fxx		---
+; 8xxx		---
+; 9xxx		---
+; Axxx		---
+; Bxxx		---
+; Cxxx		---
+; Dxxx		---
+; Exxx		---
+; Fxxx		---
+;
+;
+.MACRO Save_PC ; Save PC to IP
+PCH > BUS
+BUS > IPH
+PCL > BUS
+BUS > IPL
+.ENDM
+;
+;
+.MACRO PC_To_DA ; Move Current PC to D/A
+PCL > BUS
+BUS > DAL
+PCH > BUS
+BUS > DAH
+.ENDM
+;
+;
+.MACRO Fetch_Address ; Fetch immediate direct address and place it in D/A
+LATCH PC
+MREAD
+BUS > DAL / +PC
+MREAD
+BUS > DAH / +PC / UNLATCH
+.ENDM
+;
+;
+.MACRO Fetch_Address1 ; Fetch immediate direct address and place it in D/A 1
+LATCH PC
+MREAD
+BUS > DA1L / +PC
+MREAD
+BUS > DA1H / +PC / UNLATCH
+.ENDM
+;
+;
+.MACRO Fetch_Byte ; Fetch immediate byte
+LATCH PC / 0 > BUS
+MREAD8
+UNLATCH / +PC
+.ENDM
+;
+;
+.MACRO Fetch_Word ; Fetch immediate 16-bit word
+LATCH PC / 0 > BUS
+MREAD16
+UNLATCH / +PC
+.ENDM
+;
+;
+.MACRO Fetch ; Fetch immediate 32-bit word
+LATCH PC
+MREAD
++PC
+UNLATCH / +PC
+.ENDM
+;
+;
+.MACRO Jump_Immediate ; Jump to immediate address
+Fetch
+BUS > TEMPL
+Fetch
+BUS > PCH
+TEMPL > Bus
+BUS > PCL
+.ENDM
+;
+;
+.MACRO Push_PC ; Push PC to stack
+LATCH SP
+PCH > BUS
+MWRITE
+-SP
+PCL > BUS
+MWRITE
+-SP
+UNLATCH
+.ENDM
+;
+;
+.MACRO Pop_PC ; Pop PC from stack
+LATCH SP
++SP
+MREAD
+BUS > PCL
++SP
+MREAD
+BUS > PCH
+UNLATCH
+.ENDM
+;
+;
+.MACRO Load_Int_Vector $V
+0 > BUS
+BUS > DAH
+$V > BUS
+BUS > DAL
+MREAD
+BUS > PCL
+$V+4 > BUS
+BUS > DAL
+MREAD
+BUS > PCH
+.ENDM
+
+; Special routines...
+DEFINE RESET ; Reset operation (Must be the first define)
+0 > BUS
+BUS > PCL
+BUS > PCH
+-PC / BUS > SB
+BUS > SPH
+0FFFFH > BUS
+BUS > SPL ; Load SP with FFFF
+UNLOCK
+;
+;
+DEFINE INT ; Generic interrupt
+DI	; Disable further interrupts
+Save_PC ; Save PC to IP...
+Load_Int_Vector 8
+;
+;
+DEFINE VINT ; Vectored interrupt
+DI / SINTA	; Disable further interrupts and acknowledge the interrupt
+Save_PC ; Save PC to IP...
+
+; Load vector to PC...
+MREAD
+BUS > PCL
+MREAD
+BUS > PCH
+CINTA ; Clear INTA
+;
+;
+DEFINE **** ; Invalid op-code
+DI	; Disable further interrupts
+Save_PC ; Save PC to IP...
+Load_Int_Vector 16
+;
+;
+DEFINE PINT ; On failed Kernel mode check
+DI	; Disable further interrupts
+Save_PC ; Save PC to IP...
+Load_Int_Vector 24
+
+;
+; Instruction set...
+DEFINE 00** ; MOV Y,Z
+X > BUS
+BUS > Y
+;
+;
+DEFINE 01** ; EXC Y,Z
+X > BUS
+BUS > TEMPL
+Y > BUS
+BUS > X
+TEMPL > BUS
+BUS > Y
+;
+;
+DEFINE 02** ; SSX Y,Z
+Y > BUS / LATCH SP
+MWRITE
+-SP
+Z > BUS
+MWRITE
+-SP / UNLATCH
+;
+;
+DEFINE 03** ; LSX Y,Z
+LATCH SP / +SP
+MREAD
+BUS > Z / +SP
+MREAD
+BUS > Y / UNLATCH
+;
+;
+DEFINE 04** ; INX Y,Z
+Y > BUS
+BUS > ALUAH
+Z > BUS
+BUS > ALUAL
+INCREMENT
+ALUL > BUS
+BUS > Z
+ALUH > BUS
+BUS > Y
+;
+;
+DEFINE 05** ; DEX Y,Z
+Y > BUS
+BUS > ALUAH
+X > BUS
+BUS > ALUAL
+DECREMENT
+ALUH > BUS
+BUS > Y
+ALUL > BUS
+BUS > Z
+;
+;
+DEFINE 06** ; SPC Y,Z
+Y > BUS
+BUS > PCH
+Z > BUS
+BUS > PCL
+;
+;
+DEFINE 07** ; SSP Y,Z
+Y > BUS
+BUS > SPH
+Z > BUS
+BUS > SPL
+;
+;
+DEFINE 08** ; SIP Y,Z
+Y > BUS
+BUS > IPH
+Z > BUS
+BUS > IPL
+;
+;
+DEFINE 09** ; SHLX Y,Z
+Y > BUS
+BUS > ALUAH
+Z > BUS
+BUS > ALUAL
+CC
+SHL
+ALUH > BUS
+BUS > Y
+ALUL > BUS
+BUS > Z
+;
+;
+DEFINE 0A** ; SLCX
+Y > BUS
+BUS > ALUAH
+Z > BUS
+BUS > ALUAL
+SHL
+ALUH > BUS
+BUS > Y
+ALUL > BUS
+BUS > Z
+;
+;
+DEFINE 0B** ; SHRX Y,Z
+Y > BUS
+BUS > ALUAH
+Z > BUS
+BUS > ALUAL
+CC
+SHR
+ALUH > BUS
+BUS > Y
+ALUL > BUS
+BUS > Z
+;
+;
+DEFINE 0C** ; SRCX
+Y > BUS
+BUS > ALUAH
+Z > BUS
+BUS > ALUAL
+SHR
+ALUH > BUS
+BUS > Y
+ALUL > BUS
+BUS > Z
+;
+;
+DEFINE 0D** ; CMM Y,Z
+Y > BUS
+BUS > DAH
+Z > BUS
+BUS > DAL
+MREAD
+BUS > ALUAL
+COMPLEMENT
+ALUL > BUS
+MWRITE
+;
+;
+DEFINE 0E** ; RSM Y,Z
+Y > BUS
+BUS > DAH
+Z > BUS
+BUS > DAL
+0 > BUS
+MWRITE
+;
+;
+DEFINE 0F** ; DAX Y,Z
+Y > BUS
+BUS > ALUAH
+X > BUS
+BUS > ALUAL
+DAA
+ALUL > BUS
+BUS > Z
+ALUH > BUS
+BUS > Y
+;
+;
+DEFINE 100* ; SST Z
+LATCH SP / Z > BUS
+MWRITE
+UNLATCH
+-SP
+;
+;
+DEFINE 101* ; LST Z
+LATCH SP
++SP
+MREAD
+BUS > Z / UNLATCH
+;
+;
+DEFINE 102* ; INC Z
+Z > BUS
+BUS > ALUAL
+INCREMENT
+ALUL > BUS
+BUS > Z
+;
+;
+DEFINE 103* ; DEC Z
+Z > BUS
+BUS > ALUAL
+DECREMENT
+ALUL > BUS
+BUS > Z
+;
+;
+DEFINE 104* ; LSB Z
+SB > BUS
+BUS > Z
+;
+;
+DEFINE 105* ; SSB Z
+Z > BUS
+BUS > Z
+;
+;
+DEFINE 106* ; MVI Z
+PC_To_DA
++PC / MREAD
++PC / BUS > Z
+;
+;
+DEFINE 107* ; STI Z
+PC_To_DA
++PC / Z > BUS
++PC / MWRITE
+;
+;
+DEFINE 108* ; SHL Z
+Z > BUS
+BUS > ALUAL
+SHL
+ALUL > BUS
+BUS > Z
+;
+;
+DEFINE 109* ; SLC Z
+Z > BUS
+BUS > ALUAL
+SHLC
+ALUL > BUS
+BUS > Z
+;
+;
+DEFINE 10A* ; SHR Z
+Z > BUS
+BUS > ALUAL
+SHR
+ALUL > BUS
+BUS > Z
+;
+;
+DEFINE 10B* ; SRC Z
+Z > BUS
+BUS > ALUAL
+SHRC
+ALUL > BUS
+BUS > Z
+;
+;
+DEFINE 10C* ; COM Z
+Z > BUS
+BUS > ALUAL
+COMPLEMENT
+ALUL > BUS
+BUS > Z
+;
+;
+DEFINE 10D* ; DAR Z
+Z > BUS
+BUS > ALUAL
+DAA
+ALUL > BUS
+BUS > Z
+;
+;
+DEFINE 10E* ; DAD Z
+Z > BUS
+BUS > ALUAL
+BUS > ALUBL
+ADD
+ADD
+ALUL > BUS
+BUS > Z
+;
+;
+DEFINE 10F* ; RES Z
+0 > BUS
+BUS > Z
+;
+;
+DEFINE 110* ; MVM Z  -  Move register Z to direct memory
+Fetch_Address
+Z > BUS
+MWRITE
+;
+;
+DEFINE 111* ; LDM Z  -  Load register Z from direct memory
+Fetch_Address
+MREAD
+BUS > Z
+;
+;
+DEFINE 113* ; OUT Z
+RESUME
+CHECK
+Z > BUS
+OUTPUT
+;
+;
+DEFINE 114* ; INP Z
+RESUME
+CHECK
+Z > BUS
+INPUT
+BUS > Z
+;
+;
+DEFINE 115* ; MLO Z  -  Move immediate byte to low byte of register Z
+; Mask low byte off of Z
+0FF00H > BUS
+BUS > ALUBL
+Z > BUS
+BUS > ALUBL
+AND
+
+; OR immediate byte into Z
+Fetch_Byte
+BUS > ALUAL
+Z > BUS
+BUS > ALUBL
+OR
+ALUL > BUS
+BUS > Z
+;
+;
+DEFINE 116* ; MHI Z  -  Move immediate byte to high byte of register Z
+; Zero low byte of Z
+0FFH > BUS
+BUS > ALUBL
+Z > BUS
+BUS > ALUAL
+AND
+ALUL > BUS
+BUS > TempL
+
+; Get byte and shift it into position
+Fetch_Byte
+BUS > ALUAL
+SHL
+SHL
+SHL
+SHL
+SHL
+SHL
+SHL
+SHL
+
+; Or into Z
+TempL > BUS
+BUS > ALUBL
+OR
+ALUL > BUS
+BUS > Z
+;
+;
+DEFINE 117* ; PUSH Z
+Z>BUS / LATCH SP
+MWRITE
+-SP / UNLATCH
+;
+;
+DEFINE 118* ; POP Z
++SP
+LATCH SP
+MREAD
+BUS>Z / UNLATCH
+;
+;
+DEFINE 11D* ; EXS Z		Exchange Z with stack
+Z > BUS
+BUS > TempL
++SP
+LATCH SP
+MREAD
+BUS > Z
+TempL > BUS
+MWRITE
+-SP / UNLATCH
+;
+;
+DEFINE 120* ; STTS Z
+Z > BUS
+BUS > T(TS)
+;
+;
+DEFINE 121* ; STS Z
+Z > BUS
+BUS > T(S)
+;
+;
+DEFINE 122* ; STM Z
+Z > BUS
+BUS > T(M)
+;
+;
+DEFINE 123* ; STH Z
+Z > BUS
+BUS > T(H)
+;
+;
+DEFINE 124* ; STDW Z
+Z > BUS
+BUS > T(DW)
+;
+;
+DEFINE 125* ; STDM Z
+Z > BUS
+BUS > T(D)
+;
+;
+DEFINE 126* ; STMY Z
+Z > BUS
+BUS > T(MO)
+;
+;
+DEFINE 127* ; STY Z
+Z > BUS
+BUS > T(Y)
+;
+;
+DEFINE 128* ; LTTS Z
+T(TS) > BUS
+BUS > Z
+;
+;
+DEFINE 129* ; LTS Z
+T(S) > BUS
+BUS > Z
+;
+;
+DEFINE 12A* ; LTM Z
+T(M) > BUS
+BUS > Z
+;
+;
+DEFINE 12B* ; LTH Z
+T(H)> BUS
+BUS > Z
+;
+;
+DEFINE 12C* ; LTDW Z
+T(DW) > BUS
+BUS > Z
+;
+;
+DEFINE 12D* ; LTDM Z
+T(D) > BUS
+BUS > Z
+;
+;
+DEFINE 12E* ; LTMY Z
+T(MO) > BUS
+BUS > Z
+;
+DEFINE 12F* ; LTY Z
+T(Y) > BUS
+BUS > Z
+;
+;
+DEFINE 138* ; WIN Z
+RESUME
+CHECK
+Z > BUS
+BUS > DAL
+INPUT
+BUS > TempL
+0 > BUS
+IFTS
+-PC ; // Repeat instruction if input status port is 0 (not ready)
+END
+NOP
+;
+;
+DEFINE 139* ; WOUT Z
+RESUME
+CHECK
+Z > BUS
+BUS > DAL
+INPUT
+BUS > TempL
+1 > BUS
+IFTS
+-PC ; // Repeat instruction if output status port is 0 (not ready)
+END
+NOP
+;
+;
+DEFINE 13A* ; CPI Z  -  Compare immediate with register Z
+Fetch
+BUS > ALUBL
+Z > BUS
+BUS > ALUAL
+SUBTRACT
+;
+;
+DEFINE 13B* ; CPD Z
+Fetch_Address
+Z > BUS
+BUS > ALUAL
+MREAD
+BUS > ALUBL
+SUBTRACT
+;
+;
+DEFINE 13C* ; XNORI Z
+Fetch
+BUS > ALUAL
+XNOR
+ALUL > BUS
+BUS > Z
+;
+;
+DEFINE 13D* ; XNORD Z
+Fetch_Address
+MREAD
+BUS > ALUBL
+Z > BUS
+BUS > ALUAL
+XNOR
+ALUL > BUS
+BUS > Z
+;
+;
+DEFINE 13E* ; XORI Z
+Fetch
+BUS > ALUBL
+Z > BUS
+BUS > ALUAL
+XOR
+ALUL > BUS
+BUS > Z
+;
+;
+DEFINE 13F* ; XORD Z
+Fetch_Address
+Z > BUS
+BUS > ALUAL
+MREAD
+BUS > ALUBL
+XOR
+ALUL > BUS
+BUS > Z
+;
+;
+DEFINE 140* ; ADDI Z
+Fetch
+BUS > ALUBL
+Z > BUS
+BUS > ALUAL
+ADD
+ALUL > BUS
+BUS > Z
+;
+;
+DEFINE 141* ; ADIC Z
+Fetch
+BUS > ALUBL
+Z > BUS
+BUS > ALUAL
+ADDC
+ALUL > BUS
+BUS > Z
+;
+;
+DEFINE 142* ; ADD Z  -  Add direct to register Z
+Fetch_Address
+Z > BUS
+BUS > ALUAL
+MREAD
+BUS > ALUBL
+ADD
+ALUL > BUS
+BUS > Z
+;
+;
+DEFINE 143* ; ADDC Z
+Fetch_Address
+Z > BUS
+BUS > ALUAL
+MREAD
+BUS > ALUBL
+ADDC
+ALUL > BUS
+BUS > Z
+;
+;
+DEFINE 144* ; SUBI Z
+Fetch
+BUS > ALUBL
+Z > BUS
+BUS > ALUAL
+SUBTRACT
+ALUL > BUS
+BUS > Z
+;
+;
+DEFINE 145* ; SBIB Z
+Fetch
+BUS > ALUBL
+Z > BUS
+BUS > ALUAL
+SUBTRACTB
+ALUL > BUS
+BUS > Z
+;
+;
+DEFINE 146* ; SUBD Z
+Fetch_Address
+MREAD
+BUS > ALUBL
+Z > BUS
+BUS > ALUBL
+SUBTRACT
+ALUL > BUS
+BUS > Z
+;
+;
+DEFINE 147* ; SBDB Z  -  Subtract direct from register Z with borrow
+Fetch_Address
+MREAD
+BUS > ALUBL
+Z > BUS
+BUS > ALUAL
+SUBTRACTB
+ALUL > BUS
+BUS > Z
+;
+;
+DEFINE 148* ; ANDI Z
+Fetch
+BUS > ALUBL
+Z > BUS
+BUS > ALUAL
+AND
+ALUL > BUS
+BUS > Z
+;
+;
+DEFINE 149* ; ANDD Z
+Fetch_Address
+Z > BUS
+BUS > ALUAL
+MREAD
+BUS > ALUBL
+AND
+ALUL > BUS
+BUS > Z
+;
+;
+DEFINE 14A* ; NANDI Z
+Fetch
+BUS > ALUBL
+Z > BUS
+BUS > ALUAL
+NAND
+ALUL > BUS
+BUS > Z
+;
+;
+DEFINE 14B* ; NANDD Z
+Fetch_Address
+Z > BUS
+BUS > ALUAL
+MREAD
+BUS > ALUBL
+NAND
+ALUL > BUS
+BUS > Z
+;
+;
+DEFINE 14C* ; ORI Z
+Fetch
+BUS > ALUBL
+Z > BUS
+BUS > ALUAL
+OR
+ALUL > BUS
+BUS > Z
+;
+;
+DEFINE 14D* ; ORD Z
+Fetch_Address
+Z > BUS
+BUS > ALUAL
+MREAD
+BUS > ALUBL
+OR
+ALUL > BUS
+BUS > Z
+;
+;
+DEFINE 14E* ; NORI Z
+Fetch
+BUS > ALUBL
+Z > BUS
+BUS > ALUAL 
+OR
+ALUL > BUS
+BUS > Z
+;
+;
+DEFINE 14F* ; NORD Z
+Fetch_Address
+Z > BUS
+BUS > ALUAL
+MREAD
+BUS > ALUBL
+NOR
+ALUL > BUS
+BUS > Z
+;
+;
+DEFINE 15** ; ADIX Y,Z  -  ADD immediate to register pair Y,Z
+Fetch
+BUS > ALUAL
++DA / +PC
+MREAD
+BUS > ALUAH
+Z > BUS
+BUS > ALUBL
+Y > BUS
+BUS > ALUBH
+ADD
+ALUL > BUS
+BUS > Z
+ALUH > BUS
+BUS > Y
+;
+;
+DEFINE 16** ; ADIXC Y,Z
+Fetch
+BUS > ALUAL
++DA / +PC
+MREAD
+BUS > ALUAH
+Z > BUS
+BUS > ALUBL
+Y > BUS
+BUS > ALUBH
+ADDC
+ALUL > BUS
+BUS > Z
+ALUH > BUS
+BUS > Y
+;
+;
+DEFINE 17** ; ADDX Y,Z
+Z > BUS
+BUS > ALUAL
+Y > BUS
+BUS > ALUBL
+ADD
+ALUL > BUS
+BUS > Z
+ALUH > BUS
+BUS > Y
+;
+;
+DEFINE 18** ; SBIX Y,Z
+Fetch
+BUS > ALUAL
++DA / +PC
+MREAD
+BUS > ALUAH
+Z > BUS
+BUS > ALUBL
+Y > BUS
+BUS > ALUBH
+SUBTRACT
+ALUL > BUS
+BUS > Z
+ALUH > BUS
+BUS > Y
+;
+;
+DEFINE 19** ; SBDX Y,Z  -  Subtract direct from register pair Y,Z
+Fetch_Address
+MREAD
+BUS > ALUBL
++DA
+MREAD
+BUS > ALUBH
+Y > BUS
+BUS > ALUAH
+Z > BUS
+BUS > ALUAL
+SUBTRACT
+ALUL > BUS
+BUS > Z
+ALUH > BUS
+BUS > Y
+;
+;
+DEFINE 1A** ; SUBX Y,Z
+Z > BUS
+BUS > ALUBL
+Y > BUS
+BUS > ALUAL
+SUBTRACT
+ALUL > BUS
+BUS > Z
+ALUH > BUS
+BUS > Y
+;
+;
+DEFINE 1B** ; ANIX Y,Z
+Fetch
+BUS > ALUAL / +DA / +PC
+MREAD
+BUS > ALUAH
+Y > BUS
+BUS > ALUBL
+Z > BUS
+BUS > ALUBH
+AND
+ALUL > BUS
+BUS > Z
+ALUH > BUS
+BUS > Y
+;
+;
+DEFINE 1C** ; ANDX Y,Z
+Fetch_Address
+MREAD
+BUS > ALUBL
++DA
+MREAD
+BUS > ALUBH
+Y > BUS
+BUS > ALUAH
+Z > BUS
+BUS > ALUAL
+AND
+ALUL > BUS
+BUS > Z
+ALUH > BUS
+BUS > Y
+;
+;
+DEFINE 1D** ; ANX Y,Z  -  AND register Y and register Z, store in pair Y,Z
+Z > BUS
+BUS > ALUAL
+Y > BUS
+BUS > ALUBL
+AND
+ALUL > BUS
+BUS > Z
+;
+;
+DEFINE 1E** ; COMX Y,Z
+Z > BUS
+BUS > ALUAL
+COMPLEMENT
+ALUL > BUS
+BUS > Z
+Y > BUS
+COMPLEMENT
+ALUL > BUS
+BUS > Y
+;
+;
+DEFINE 1F** ; CPX Y,Z
+Y > BUS
+BUS > ALUAL
+Z > BUS
+BUS > ALUBL
+SUBTRACT
+;
+;
+DEFINE 20** ; NAIX Y,Z  -  NAND immediate with register pair Y,Z
+Y > BUS
+BUS > ALUAL
+Z > BUS
+BUS > ALUAH
+Fetch
+BUS > ALUBL
+Fetch
+BUS > ALUBH
+NAND
+ALUL > BUS
+BUS > Y
+ALUH > BUS
+BUS > Z
+;
+;
+DEFINE 21** ; NADX Y,Z  -  NAND direct with register pair Y,Z
+Fetch_Address
+BUS > ALUAL
++DA
+MREAD
+BUS > ALUAH
+Y > BUS
+BUS > ALUBL
+Z > BUS
+BUS > ALUBH
+NAND
+ALUL > BUS
+BUS > Y
+ALUH > BUS
+BUS > Z
+;
+;
+DEFINE 22** ; NANX Y,Z
+Y > BUS
+BUS > ALUAL
+Z > BUS
+BUS > ALUBL
+NAND
+ALUL > BUS
+BUS > Z
+;
+;
+DEFINE 23** ; ORIX Y,Z
+Y > BUS
+BUS > ALUAL
+Z > BUS
+BUS > ALUAH
+Fetch
+BUS > ALUBL
+Fetch
+BUS > ALUBH
+OR
+ALUL > BUS
+BUS > Y
+ALUH > BUS
+BUS > Z
+;
+;
+DEFINE 24** ; ORDX Y,Z
+Fetch_Address
+BUS > ALUAL
++DA
+MREAD
+BUS > ALUAH
+Y > BUS
+BUS > ALUBL
+Z > BUS
+BUS > ALUBH
+OR
+ALUL > BUS
+BUS > Y
+ALUH > BUS
+BUS > Z
+;
+;
+DEFINE 25** ; ORX Y,Z
+Y > BUS
+BUS > ALUAL
+Z > BUS
+BUS > ALUBL
+OR
+ALUL > BUS
+BUS > Z
+;
+;
+DEFINE 26** ; NOIX Y,Z
+Y > BUS
+BUS > ALUAL
+Z > BUS
+BUS > ALUAH
+Fetch
+BUS > ALUBL
+Fetch
+BUS > ALUBH
+NOR
+ALUL > BUS
+BUS > Y
+ALUH > BUS
+BUS > Z
+;
+;
+DEFINE 27** ; NODX Y,Z
+Fetch_Address
+BUS > ALUAL
++DA
+MREAD
+BUS > ALUAH
+Y > BUS
+BUS > ALUBL
+Z > BUS
+BUS > ALUBH
+NOR
+ALUL > BUS
+BUS > Y
+ALUH > BUS
+BUS > Z
+;
+;
+DEFINE 28** ; NORX Y,Z
+Y > BUS
+BUS > ALUAL
+Z > BUS
+BUS > ALUBL
+NOR
+ALUL > BUS
+BUS > Z
+;
+;
+DEFINE 29** ; XOIX Y,Z
+Y > BUS
+BUS > ALUAL
+MREAD
+BUS > ALUBL
+XOR
+ALUL > BUS
+BUS > Y
+Z > BUS
+BUS > ALUAL
+NOR
+ALUL > BUS
+BUS > Y
+;
+;
+DEFINE 2A** ; XORDX Y,Z
+Fetch_Address
+BUS > ALUAL
++DA
+MREAD
+BUS > ALUAH
+Y > BUS
+BUS > ALUBL
+Z > BUS
+BUS > ALUBH
+XOR
+ALUL > BUS
+BUS > Y
+ALUH > BUS
+BUS > Z
+;
+;
+DEFINE 2B** ; XORX Y,Z
+Y > BUS
+BUS > ALUAL
+Z > BUS
+BUS > ALUBL
+XOR
+ALUL > BUS
+BUS > Z
+;
+;
+DEFINE 2C** ; XNIX Y,Z
+Fetch_Address
+BUS > ALUAL
++DA
+MREAD
+BUS > ALUAH
+Y > BUS
+BUS > ALUBL
+Z > BUS
+BUS > ALUBH
+XNOR
+ALUL > BUS
+BUS > Y
+ALUH > BUS
+BUS > Z
+;
+;
+DEFINE 2D** ; XNDX Y,Z
+Fetch_Address
+BUS > ALUAL
++DA
+MREAD
+BUS > ALUAH
+Y > BUS
+BUS > ALUBL
+Z > BUS
+BUS > ALUBH
+XNOR
+ALUL > BUS
+BUS > Y
+ALUH > BUS
+BUS > Z
+;
+;
+DEFINE 2E** ; XNOX Y,Z
+Y > BUS
+BUS > ALUAL
+Z > BUS
+BUS > ALUBL
+XNOR
+ALUL > BUS
+BUS > Z
+;
+;
+DEFINE 2F** ; EXCX Y,Z
+Y > BUS
+BUS > TempL
+Z > BUS
+BUS > Y
+TempL > BUS
+BUS > Z
+;
+;
+DEFINE 30** ; MVIX Y,Z  -  Multiply Z with immediate, store in Y,Z
+Fetch
+BUS > ALUAL
+Fetch
+BUS > ALUBL
+MULTIPLY
+ALUL > BUS
+BUS > Z
+ALUH > BUS
+BUS > Y
+;
+;
+DEFINE 31** ; MUDX Y,Z  -  Multiply Z with direct, store in Y,Z
+Fetch_Address ; Get direct address
+MREAD ; Read direct value
+BUS > ALUAL
+Z > BUS
+BUS > ALUBL
+MULTIPLY
+ALUL > BUS
+BUS > Z
+ALUH > BUS
+BUS > Y
+;
+;
+DEFINE 32** ; MULX Y,Z
+Z > BUS
+BUS > ALUAL
+Y > BUS
+BUS > ALUBL
+MULTIPLY
+ALUH > BUS
+BUS > Y
+ALUL > BUS
+BUS > Z
+;
+;
+DEFINE 36** ; CDIY Y,Z  -  Call direct if Yth bit in register Z set
+Fetch_Address
+Z > BUS
+BUS > TempL
+Y > BUS
+IFZS
+END
+NOP
+Push_PC
+DAL > BUS
+BUS > PCL
+DAH > BUS
+BUS > PCH
+;
+;
+DEFINE 37** ; CDNY Y,Z  -  Call direct if Yth bit in register Z not set
+Fetch_Address
+Z > BUS
+BUS > TempL
+Y > BUS
+IFZC
+END
+NOP
+Push_PC
+DAL > BUS
+BUS > PCL
+DAH > BUS
+BUS > PCH
+;
+;
+DEFINE 38** ; JDY Y,Z  -  Jump direct if Yth bit in register Z set
+Fetch_Address
+Z > BUS
+BUS > TempL
+Y > BUS
+IFZS
+END
+NOP
+DAL > BUS
+BUS > PCL
+DAH > BUS
+BUS > PCH
+;
+;
+DEFINE 39** ; JDNY Y,Z
+Fetch_Address
+Z > BUS
+BUS > TempL
+Y > BUS
+IFZC
+END
+NOP
+DAL > BUS
+BUS > PCL
+DAH > BUS
+BUS > PCH
+;
+;
+DEFINE 3A** ; RIY Y,Z  -  Return if Yth bit in register Z set
+Z > BUS
+BUS > TempL
+IFZS
+END
+NOP
+Pop_PC
+;
+;
+DEFINE 3B** ; RNY Y,Z  -  Return if Yth bit in register Z not set
+Z > BUS
+BUS > TempL
+IFZC
+END
+NOP
+Pop_PC
+;
+;
+DEFINE 3C** ; SEY Y,Z
+Z > BUS
+BUS > TempL
+ST
+TempL > BUS
+BUS > Z
+;
+;
+DEFINE 3D** ; RSTY Y,Z
+Z > BUS
+BUS > TempL
+CT
+TempL > BUS
+BUS > Z
+;
+;
+DEFINE 3E** ; JMX Y,Z
+Y > BUS
+BUS > TempL
+Z > BUS
+BUS > PCL
+TempL > BUS
+BUS > PCH
+;
+;
+DEFINE 3F** ; CMX Y,Z  -  Call to address in memory specified by pair Y,Z
+PCL > BUS
+BUS > TempL
+PCH > BUS
+BUS > TempH
+LATCH SP / TempH > BUS
+MWRITE
+-SP / TempL > BUS
+MWRITE
+-SP
+UNLATCH
+;
+;
+DEFINE 4*** ; STZX X,Y,Z  -  Store register X to memory specified by pair Y,Z
+Y > BUS
+BUS > DAH
+Z > BUS
+BUS > DAL
+X > BUS
+MWRITE
+;
+;
+DEFINE 5*** ; LZX X,Y,Z  -  Load register X from memory specified by pair Y,Z
+X > BUS
+BUS > DAH
+Y > BUS
+BUS > DAL
+MREAD
+BUS > X
+;
+;
+DEFINE 6000 ; NOP
+0 > BUS
+;
+;
+DEFINE 6001 ; HALT
+RESUME
+CHECK
+HALT
+;
+;
+DEFINE 6002 ; RTN
+Pop_PC
+;
+;
+DEFINE 6003 ; CALL
+Push_PC ; Push PC to stack
+Jump_Immediate ; Jump to immediate address
+;
+;
+DEFINE 6004 ; JMP
+Jump_Immediate ; Jump to immediate address
+;
+;
+DEFINE 6005 ; MP
+RESUME
+CHECK
+LOCK
+;
+;
+DEFINE 6006 ; MUP
+RESUME
+CHECK
+UNLOCK
+;
+;
+DEFINE 6007 ; DI
+RESUME
+CHECK
+DI
+;
+;
+DEFINE 6008 ; EI
+RESUME
+CHECK
+EI
+;
+;
+DEFINE 6009 ; RSTC
+RESUME
+CHECK
+CLEAR CLOCK
+;
+;
+DEFINE 600A ; RESET
+RESUME
+CHECK
+JUMP RESET
+;
+;
+DEFINE 600B ; RTI
+; Restore PC from IP...
+IPL > BUS
+BUS > PCL
+IPH > BUS
+BUS > PCH
+
+EI	; Re-enable interrupts
+;
+;
+DEFINE 600C ; POP
++SP
+;
+;
+DEFINE 600D ; SSKP
++PC
++PC
+;
+;
+DEFINE 600E ; DSKP
++PC
++PC
++PC
+;
+;
+DEFINE 600F ; SIMI
+0 > BUS / LATCH SP
+PCH > BUS
+MWRITE
+-SP / PCL > BUS
+MWRITE
+-SP
+UNLATCH / BUS > PCL
+BUS > PCH
+;
+;
+DEFINE 6013 ; MIMI  -  Move immediate byte to memory specified by following address
+PC_To_DA ; Move PC to D/A...
+
+; Get byte to write and store in ALU...
++PC / MREAD8
++DA / BUS > ALUAL
+Fetch_Address
+ALUL > BUS
+MWRITE
+;
+;
+DEFINE 112* ; SWAP Z  -  Swap bytes in register Z
+Z > BUS
+BUS > ALUAL
+SHR
+SHR
+SHR
+SHR
+255 > BUS
+BUS > ALUBL
+AND
+ALUL > BUS
+BUS > TempL
+Z > BUS
+BUS > ALUAL
+255 > BUS
+BUS > ALUBL
+AND
+TempL > BUS
+BUS > ALUBL
+OR
+ALUL > BUS
+BUS > Z
+;
+;
+DEFINE 6014 ; MMMI  -  Move byte in memory specified by next address to memory specified by following address
+PC_To_DA ; Move PC to D/A...
+
+; Get byte...
+Fetch_Address
+MREAD
+
+; Write byte...
+Fetch_Address
+MWRITE
+DEFINE 602* ; MIM Z  -	Move Z to location specified by immediate address
+Fetch_Address
+Z > BUS
+MWRITE
+;
+;
+DEFINE 61** ; MMMX Y,Z	-  Move immediate 8 bits to memory specified by YZ
+Y > BUS
+BUS > DAL
+Z > BUS
+BUS > DAH
+Fetch_Byte
+MWRITE8
+;
+;
+DEFINE 62** ; MXMI Y,Z	-  Move memory byte specified by YZ to location specified by immediate
+Y > BUS
+BUS > DAL
+Z > BUS
+BUS > DAH
+MREAD8
+BUS > TempL
+Fetch_Address
+TempL > BUS
+MWRITE8
+;
+;
+DEFINE 66** ; BMXI Y,Z	-  Block move (YZ) bytes from immediate address to immediate+1 address
+Fetch_Address ; Get immediate (source) address
+Y > BUS
+BUS > TempH
+Z > BUS
+BUS > TempL
+0 > BUS
+CT
+IFNZ
+END ; Temp was < 2
+NOP
+Fetch_Address1 ; Get immediate (destination) address
+Loop66:
+RESUME
+MREAD16 / -Temp
+LATCH DA1 / -Temp
+MWRITE16 / +DA
+UNLATCH / +DA1
+IFZ
+JUMP Loop66
+NOP
+;
+;
+DEFINE 67** ; BSXI Y,Z	-  Block search for immediate byte, beginning at memory specified by YZ, store location in YZ
+Fetch_Byte
+BUS > ALUAL
+Y > BUS
+BUS > DAL
+Z > BUS
+BUS > DAH
+MREAD8
+BUS > ALUBL
+0 > BUS
+BUS > ALUBH
+0 > BUS
+BUS > ALUAH
+SUBTRACT ; Compare values
+SB > BUS
+BUS > TempL
+2 > BUS
+IFZC
+END ; Found match
+NOP
+0 > BUS
+BUS > ALUAH
+
+; Move to next byte
+-PC / INCREMENT
+Fetch_Word
+BUS > ALUAL
+SHR
+SHR
+SHR
+SHR
+SHR
+SHR
+SHR
+SHR ; Shift by one byte
+SUBTRACT ; Compare high byte
+SB > BUS
+BUS > TempL
+Y > BUS
+BUS > ALUAL
+Z > BUS
+BUS > ALUAH
+INCREMENT
+ALUL > BUS
+BUS > Y
+ALUH > BUS
+BUS > Z
+2 > BUS
+IFZC
+END ; Found match
+NOP
+
+; Position to next byte
+ALUL > BUS
+BUS > Y
+ALUH > BUS
+BUS > Z / -PC
+-PC ; Repeat instruction
+;
+;
+DEFINE 71** ; EXXS Y,Z  -  Exchange YZ with stack
+; Save YZ...
+Y > BUS
+BUS > TempL
+Z > BUS
+BUS > TempH
+
+; Pop YZ from stack...
++SP / LATCH SP
+MREAD
+BUS > Z
++SP
+MREAD
+BUS > Y
+
+; Push Saved YZ to stack...
+TempL>BUS
+MWRITE
+-SP
+TempH>BUS
+MWRITE
+-SP / UNLATCH
+;
+;
+DEFINE 72** ; PUSH Y,Z	Push YZ to stack
+Y>BUS / LATCH SP
+MWRITE
+-SP
+Z>BUS
+MWRITE
+-SP / UNLATCH
+;
+;
+DEFINE 73** ; POP Y,Z		Pop stack to YZ
++SP
+LATCH SP
+MREAD
+BUS>Z / +SP
+MREAD
+BUS>Y / UNLATCH
+END
+
+.END
+

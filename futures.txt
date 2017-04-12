@@ -1,0 +1,81 @@
+CHANGED IN CEF V3.0 from CEF V2:
+
+o TUEC and TCEF_Exception replaced with tUnified_Exception.
+
+
+PLANNED CHANGES in CEF V3.0
+
+o Combine TComponent's Signal_Change_Notice and Set_Signal methods into a single
+  Signal_Change( Source : TComponent ; Signal : PChar ; Index : integer ; Active, Value : boolean )
+  - Passes both signal name and index from Source.  Active indicates if the
+    signal is active, but Value is the actual value (different from Active for
+    active-low signals).
+o Remove Component_Type method from TComponent.
+o For methods with _Ex suffix, remove old (non _Ex) method and rename the new
+  (_Ex) method to remove the suffix.  eg Rename "Assemble_Ex" to "Assemble".
+o Replace all usage of TCOM_Stream with TCEF_Stream.
+o Allow clock wake events to have an associated context integer.
+o Add DMA and Execute flags to Read/Write operations - have front panels
+  optionally ignore DMA operations.
+o Include requesting component in reads, writes, deposits, and examines.
+o New Internal_Read and Internal_Write methods that indicate reads and writes
+  that were done internally to a component (such as CPU access to internal CPU
+  addressable registers) for notification to front panels, etc..
+o New Clear method for components: Resets internal state to a known state.
+  When there is a known power-on state for a component, this will reset to that
+  state.  Otherwise, all internal registers/memory are zeroed.
+o Get_Error_Text and Set_Error_Text will be removed from TAssembler_Status.
+o Adjust VMTs for classes to account for Free Pascal objects.
+o Replace cable Receive() with Transmit().  Pass sending component, return status.
+o Add string length to cable Transmit_String() so that nulls can be transmitted
+  and include sending component.
+o Descend TCEF_Stack_Interface from COM_Object
+
+PLANNED FUTURE FEATURES for CEF32
+
+v3.1: I/O peripherals
+V3.2: Floating-point
+
+Non-version-specific:
+UI
+    o Memory search
+    o console-mode UI
+    o Execution history
+    o Conditional breakpoints/watchpoints (using registers, memory data, symbols, signal states, and "breakpoint variables")
+    o Allow breakpoints on execution of specific instructions (eg. "MOV" or "MOV A,X")
+    o Add syntax-check-only assembly
+    o Visual RAM/Disk access component
+    o Add port manager to Util and use in Altair and PDP11.
+    o Allow BCD display in watch window.
+    o Allow indirect addresses for watch items.
+    o Allow loading/clearing/using assembler symbols.
+    o See about using Scintilla SciLexer for the source editor.
+    o Add set/clear all buttons for component conditionals.
+    o Allow components to supply a UI definition for setup commands.
+    o Allow components to supply one or more help files.
+    o Provide means of checking for updates to CEF32.
+Utility
+    o Media Manager Disk support
+    o Waveform file support
+Components and Emulators
+    o 8086/8088 CPU
+    o PDP-11/45 CPU
+    o TRS-80 System
+    o VT100 terminal
+    o LA120 terminal
+    o Uppercase-only option for terminals/printers
+    o DEC PR11/PC11/RL11 devices
+CEF file commands
+    o Restart (for CPUs)
+    o Clear (for components)
+    o CLEAR/ALL to clear all components
+Other
+    o Regression test suite
+    o Micro-code support
+    o Component scripting
+    o Allow Setup to define keymappings in VT100, LA36, and SOL20
+    o Localization support
+    o File loader extensions (dlls that load specific file formats into memory)
+    o Save/load symbols (assembler contexts)
+    o CEF template generator for components.
+

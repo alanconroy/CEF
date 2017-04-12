@@ -1,0 +1,22 @@
+Memory component comparison
+
+Component	Range	DMA	Physical	Block	Overhead	Notes
+---------	-----	---	--------	-----	--------	-----
+BlockRAM	31 bits	Yes	0-2 Gb		1-2 Gb	4 bytes/block	Allocates in blocks, as needed
+CEFMemory	64 bits	Yes	Varies		256	20%
+S64K_RAM	16 bits	Yes	64 Kb		64 Kb	None		Fixed size
+S4M_RAM		20 bits	Yes	4 Mb		4 Mb	None		Fixed size
+SRAM		31 bits	Yes*	0-2 Gb		Varies	None		Expands to meet address written
+SVM_Code_RAM	64 bits	No	0		0	None		RAM is mapped to disk file(s)
+
+* Writing to the component can change the physical position of the data.
+
+Range is the address range supported by the component.
+DMA indicates if the internal storage of the component is directly accessible from
+outside the component.  Note that direct access cannot span blocks.
+Physical is the amount of physical memory required by the component, not counting
+overhead.
+Block indicates the size of the internal blocks allocated by the component.
+Overhead indicates the amount of overhead associated with the emulated memory.  Note
+that all components require fixed overhead in addition to the overhead for the
+emulated memory.

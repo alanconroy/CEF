@@ -1,0 +1,172 @@
+#------------------------------------------------------------------------------
+VERSION = BWS.01
+#------------------------------------------------------------------------------
+!ifndef ROOT
+ROOT = $(MAKEDIR)\..
+!endif
+#------------------------------------------------------------------------------
+MAKE = $(ROOT)\bin\make.exe -$(MAKEFLAGS) -f$**
+DCC = $(ROOT)\bin\dcc32.exe $**
+BRCC = $(ROOT)\bin\brcc32.exe $**
+#------------------------------------------------------------------------------
+PROJECTS = cefclock.dll cefmemory.dll S64K_RAM.dll S4M_RAM.dll genscreen.dll \
+  VDM1.dll Null.dll Panel.dll EAE.dll KW11L.dll serial.dll SIO.dll IMM860.dll \
+  DL11.dll I8008.dll F3850.dll PDP11.dll RCA1802.dll z80.dll AIM65_KB.dll \
+  Apple_2_KB.dll ASR33_KB.dll HX20_KB.dll LA120_KB.dll LK201_KB.dll VT05_KB.dll \
+  VT52_KB.dll VT100_KB.dll PC108_KB.dll sol20_KB.dll TRS80_1_KB.dll ZX81_KB.dll \
+  vt52.dll Altair.dll sol20.dll Cosmac_Elf.dll Intellec8.dll UNIBUS.dll trs80.dll \
+  CEF_Util.dll cef32.exe RL11.dll PC11.dll PR11.dll iAPX.dll MM_Tape_ANSI.dll \
+  MM_Tape_DOS11.dll MM_Tape.dll GB_uCode.dll
+#------------------------------------------------------------------------------
+default: $(PROJECTS)
+#------------------------------------------------------------------------------
+
+
+cef32.exe: Sources\CEF32\cef32.dpr
+  $(DCC)
+
+cefclock.dll: Sources\CEFClock\cefclock.dpr
+  $(DCC)
+
+cefmemory.dll: Sources\CEFMemory\cefmemory.dpr
+  $(DCC)
+
+genscreen.dll: Sources\GenScreen\genscreen.dpr
+  $(DCC)
+
+Null.dll: Sources\Null\Null.dpr
+  $(DCC)
+
+Panel.dll: Sources\Panel\Panel.dpr
+  $(DCC)
+
+S64K_RAM.dll: Sources\S64K_RAM\S64K_RAM.dpr
+  $(DCC)
+
+serial.dll: Sources\Serial\serial.dpr
+  $(DCC)
+
+sol20.dll: Sources\SOL20\sol20.dpr
+  $(DCC)
+
+trs80.dll: Sources\TRS80\trs80.dpr
+  $(DCC)
+
+VDM1.dll: Sources\VDM1\VDM1.dpr
+  $(DCC)
+
+z80.dll: Sources\Z80\z80.dpr
+  $(DCC)
+
+VT05_KB.dll: Sources\VT05_KB\VT05_KB.dpr
+  $(DCC)
+
+sol20_KB.dll: Sources\SOL20_KB\sol20_KB.dpr
+  $(DCC)
+
+SIO.dll: Sources\SIO\SIO.dpr
+  $(DCC)
+
+Altair.dll: Sources\Altair\Altair.dpr
+  $(DCC)
+
+RCA1802.dll: Sources\RCA1802\RCA1802.dpr
+  $(DCC)
+
+VT100_KB.dll: Sources\VT100_KB\VT100_KB.dpr
+  $(DCC)
+
+PC108_KB.dll: Sources\PC108_KB\PC108_KB.dpr
+  $(DCC)
+
+VT52_KB.dll: Sources\VT52_KB\VT52_KB.dpr
+  $(DCC)
+
+LK201_KB.dll: Sources\LK201_KB\LK201_KB.dpr
+  $(DCC)
+
+LA120_KB.dll: Sources\LA120_KB\LA120_KB.dpr
+  $(DCC)
+
+ASR33_KB.dll: Sources\ASR33_KB\ASR33_KB.dpr
+  $(DCC)
+
+TRS80_1_KB.dll: Sources\TRS80_1_KB\TRS80_1_KB.dpr
+  $(DCC)
+
+Apple_2_KB.dll: Sources\Apple_2_KB\Apple_2_KB.dpr
+  $(DCC)
+
+Cosmac_Elf.dll: Sources\Cosmac Elf\Cosmac_Elf.dpr
+  $(DCC)
+
+CEF_Util.dll: Sources\CEF_Util\CEF_Util.dpr
+  $(DCC)
+
+F3850.dll: Sources\F3850\F3850.dpr
+  $(DCC)
+
+PDP11.dll: Sources\PDP11\PDP11.dpr
+  $(DCC)
+
+DL11.dll: Sources\DL11\DL11.dpr
+  $(DCC)
+
+I8008.dll: Sources\I8008\I8008.dpr
+  $(DCC)
+
+IMM860.dll: Sources\IMM860\IMM860.dpr
+  $(DCC)
+
+Intellec8.dll: Sources\Intellec8\Intellec8.dpr
+  $(DCC)
+
+EAE.dll: Sources\EAE\EAE.dpr
+  $(DCC)
+
+UNIBUS.dll: Sources\UNIBUS\UNIBUS.dpr
+  $(DCC)
+
+S4M_RAM.dll: Sources\S4M_RAM\S4M_RAM.dpr
+  $(DCC)
+
+vt52.dll: Sources\VT52\vt52.dpr
+  $(DCC)
+
+RL11.dll: Sources\RL11\RL11.dpr
+  $(DCC)
+
+iAPX.dll: Sources\iAXP\iAPX.dpr
+  $(DCC)
+
+KW11L.dll: Sources\KW11L\KW11L.dpr
+  $(DCC)
+
+PC11.dll: Sources\PC11\PC11.dpr
+  $(DCC)
+
+PR11.dll: Sources\PR11\PR11.dpr
+  $(DCC)
+
+AIM65_KB.dll: Sources\AIM65_KB\AIM65_KB.dpr
+  $(DCC)
+
+HX20_KB.dll: Sources\HX20_KB\HX20_KB.dpr
+  $(DCC)
+
+ZX81_KB.dll: Sources\ZX81_KB\ZX81_KB.dpr
+  $(DCC)
+
+MM_Tape_ANSI.dll: Sources\MM_Tape_ANSI\MM_Tape_ANSI.dpr
+  $(DCC)
+
+MM_Tape_DOS11.dll: Sources\MM_Tape_DOS11\MM_Tape_DOS11.dpr
+  $(DCC)
+
+MM_Tape.dll: Sources\MM_Tape\MM_Tape.dpr
+  $(DCC)
+
+GB_uCode.dll: Sources\Gigabyte_uCode\GB_uCode.dpr
+  $(DCC)
+
+

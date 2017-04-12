@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="9"/>
+    <BuildModes Active="Default"/>
+    <Units Count="10">
+      <Unit0>
+        <Filename Value="macro11.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="macro11"/>
+        <UsageCount Value="21"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="macro11_main.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Form1"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="macro11_Main"/>
+        <EditorIndex Value="0"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="21"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="macro_11.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="Macro_11"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="398"/>
+        <CursorPos X="12" Y="420"/>
+        <UsageCount Value="21"/>
+        <Loaded Value="True"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="..\CEF_Util\CEF_Assembler.pas"/>
+        <UnitName Value="CEF_Assembler"/>
+        <EditorIndex Value="7"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="104"/>
+        <CursorPos X="6" Y="109"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="..\CEF_Util\CEF_Util.dpr"/>
+        <UnitName Value="CEF_Util"/>
+        <EditorIndex Value="6"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="150"/>
+        <CursorPos X="1" Y="168"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="..\Shared\_CEFUtil.pas"/>
+        <UnitName Value="_CEFUtil"/>
+        <EditorIndex Value="4"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="182"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="..\Shared\CEFUtil_Int.pas"/>
+        <UnitName Value="CEFUtil_Int"/>
+        <EditorIndex Value="5"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="148"/>
+        <CursorPos X="45" Y="175"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="..\Shared\CEF.pas"/>
+        <UnitName Value="CEF"/>
+        <EditorIndex Value="3"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="261"/>
+        <CursorPos X="10" Y="285"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="C:\LB\FStreams.pas"/>
+        <UnitName Value="FStreams"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="356"/>
+        <CursorPos X="40" Y="367"/>
+        <UsageCount Value="10"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="..\CEF32\CEFMain.pas"/>
+        <UnitName Value="CEFMain"/>
+        <EditorIndex Value="2"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="3907"/>
+        <CursorPos X="14" Y="3930"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit9>
+    </Units>
+    <General>
+      <ActiveWindowIndexAtStart Value="0"/>
+    </General>
+    <JumpHistory Count="17" HistoryIndex="16">
+      <Position1>
+        <Filename Value="..\Shared\CEF.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position1>
+      <Position2>
+        <Filename Value="..\Shared\CEF.pas"/>
+        <Caret Line="1298" Column="72" TopLine="1274"/>
+      </Position2>
+      <Position3>
+        <Filename Value="..\Shared\CEF.pas"/>
+        <Caret Line="4" Column="76" TopLine="1"/>
+      </Position3>
+      <Position4>
+        <Filename Value="..\CEF32\CEFMain.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position4>
+      <Position5>
+        <Filename Value="..\CEF32\CEFMain.pas"/>
+        <Caret Line="4111" Column="45" TopLine="4057"/>
+      </Position5>
+      <Position6>
+        <Filename Value="..\CEF32\CEFMain.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position6>
+      <Position7>
+        <Filename Value="..\CEF32\CEFMain.pas"/>
+        <Caret Line="726" Column="25" TopLine="703"/>
+      </Position7>
+      <Position8>
+        <Filename Value="..\CEF32\CEFMain.pas"/>
+        <Caret Line="3930" Column="14" TopLine="3907"/>
+      </Position8>
+      <Position9>
+        <Filename Value="..\CEF32\CEFMain.pas"/>
+        <Caret Line="4007" Column="34" TopLine="3984"/>
+      </Position9>
+      <Position10>
+        <Filename Value="..\CEF32\CEFMain.pas"/>
+        <Caret Line="4058" Column="30" TopLine="4034"/>
+      </Position10>
+      <Position11>
+        <Filename Value="..\CEF32\CEFMain.pas"/>
+        <Caret Line="4095" Column="43" TopLine="4072"/>
+      </Position11>
+      <Position12>
+        <Filename Value="..\CEF32\CEFMain.pas"/>
+        <Caret Line="5380" Column="40" TopLine="5357"/>
+      </Position12>
+      <Position13>
+        <Filename Value="..\CEF32\CEFMain.pas"/>
+        <Caret Line="5386" Column="48" TopLine="5363"/>
+      </Position13>
+      <Position14>
+        <Filename Value="..\CEF32\CEFMain.pas"/>
+        <Caret Line="7140" Column="39" TopLine="7117"/>
+      </Position14>
+      <Position15>
+        <Filename Value="..\CEF32\CEFMain.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position15>
+      <Position16>
+        <Filename Value="..\CEF32\CEFMain.pas"/>
+        <Caret Line="3" Column="76" TopLine="1"/>
+      </Position16>
+      <Position17>
+        <Filename Value="..\CEF32\CEFMain.pas"/>
+        <Caret Line="726" Column="25" TopLine="703"/>
+      </Position17>
+    </JumpHistory>
+  </ProjectSession>
+  <EditorMacros Count="0"/>
+</CONFIG>

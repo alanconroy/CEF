@@ -1,0 +1,17 @@
+radix 8
+unload_all
+load z80/name=Z80 "8080"
+load s64k_ram/name=MEM "low 0 high ffff"
+load rca1802/name=RCA1802
+unsigned
+ascii
+byte
+low 0
+radix 16
+high FFFF
+radix 8
+connect Z80 "MEM"
+connect RCA1802 "MEM"
+disconnect Z80 "Default Memory"
+
+
